@@ -1,0 +1,129 @@
+.login {
+    height: 812px;
+    overflow: hidden;
+
+    header {
+        .login_header {
+            margin-top: 131px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            height: 35px;
+
+            .logo {
+                img {
+                    width: 98px;
+                    height: 35px;
+                    margin-right: 13px;
+                }
+
+            }
+
+            .cut_line {
+                width: 1px;
+                height: 35px;
+                background: #00C58F;
+                opacity: .5;
+            }
+
+            .heading_title {
+                margin-left: 13px;
+                width: 109px;
+                height: 28px;
+                font-size: 20px;
+                line-height: 28px;
+                color: #00C58F;
+            }
+        }
+
+
+    }
+
+    main {
+        margin-top: 152px;
+
+        .login_input_box {
+            width: 289px;
+            margin-left: 41px;
+
+            .input_title {
+                display: inline-block;
+                width: 90px;
+                height: 21px;
+                font-size: 14px;
+                opacity: .73;
+                font-family: PingFang-SC-Regular, PingFang-SC;
+                font-weight: 400;
+                color: #535568;
+                line-height: 20px;
+                margin-bottom: 4px;
+            }
+
+            .input_form {
+
+                // position: relative;
+                .input_title_pwd {
+                    margin-top: 35px;
+                }
+
+                .van-field {
+                    border-radius: 4px;
+                    opacity: 0.4;
+                    border: 1px solid #535568;
+                    background: none;
+                }
+
+                .show_eyes {
+                    position: fixed;
+                    top: 458px;
+                    right: 50px;
+                    width: 20px;
+                    height: 20px;
+                    padding: 5px;
+                    display: inline-block;
+
+                    img {
+                        width: 20px;
+                        height: 20px;
+                    }
+                }
+
+                .login_button {
+                    margin-top: 52px;
+                    width: 287px;
+                    height: 42px;
+                    border-radius: 4px;
+                    outline: none;
+                }
+            }
+
+        }
+
+        .toggle_state {
+            display: inline-block;
+            width: 95.48px;
+            height: 21px;
+            font-size: 12px;
+            margin-left: 233px;
+            text-align: right;
+            line-height: 21px;
+            margin-top: 13px;
+            color: #25B4A5;
+        }
+    }
+
+    footer {
+        .statement_text {
+            display: inline-block;
+            margin-left: 92px;
+            margin-top: 100px;
+            width: 192px;
+            height: 14px;
+            font-size: 12px;
+            font-family: PingFang-SC-Regular, PingFang-SC;
+            font-weight: 400;
+            color: #92939F;
+            line-height: 14px;
+        }
+    }
+}
