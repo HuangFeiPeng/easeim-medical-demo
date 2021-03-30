@@ -1,37 +1,37 @@
 .login {
-    height: 812px;
+    // height: 8.12rem;
     overflow: hidden;
 
     header {
         .login_header {
-            margin-top: 131px;
+            margin-top: .8rem;
+            height: .71rem;
             display: flex;
             flex-direction: row;
             justify-content: center;
-            height: 35px;
+            align-items: center;
 
             .logo {
-                img {
-                    width: 98px;
-                    height: 35px;
-                    margin-right: 13px;
-                }
-
+                width: .98rem;
+                height: .33rem;
+                background: url('../../assets/logo@2x.png');
+                background-size: 100% 100%;
+                margin-right: .13rem;
             }
 
             .cut_line {
-                width: 1px;
-                height: 35px;
+                width: .01rem;
+                height: .35rem;
                 background: #00C58F;
                 opacity: .5;
             }
 
             .heading_title {
-                margin-left: 13px;
-                width: 109px;
-                height: 28px;
-                font-size: 20px;
-                line-height: 28px;
+                margin-left: .13rem;
+                width: 1.09rem;
+                height: .28rem;
+                font-size: .2rem;
+                line-height: .28rem;
                 color: #00C58F;
             }
         }
@@ -40,74 +40,177 @@
     }
 
     main {
-        margin-top: 152px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
 
+        //登陆部分样式
         .login_input_box {
-            width: 289px;
-            margin-left: 41px;
+            width: 2.89rem;
+            // margin-left: .41rem;
 
             .input_title {
                 display: inline-block;
-                width: 90px;
-                height: 21px;
-                font-size: 14px;
+                width: .90rem;
+                height: .21rem;
+                font-size: .14rem;
                 opacity: .73;
                 font-family: PingFang-SC-Regular, PingFang-SC;
                 font-weight: 400;
                 color: #535568;
-                line-height: 20px;
-                margin-bottom: 4px;
+                line-height: .20rem;
+                margin-bottom: .04rem;
             }
 
             .input_form {
+                position: relative;
 
-                // position: relative;
-                .input_title_pwd {
-                    margin-top: 35px;
+                .input_pwd_box {
+                    margin-top: -.3rem;
                 }
 
                 .van-field {
-                    border-radius: 4px;
+                    border-radius: .04rem;
                     opacity: 0.4;
                     border: 1px solid #535568;
                     background: none;
                 }
 
                 .show_eyes {
-                    position: fixed;
-                    top: 458px;
-                    right: 50px;
-                    width: 20px;
-                    height: 20px;
-                    padding: 5px;
-                    display: inline-block;
+                    position: absolute;
+                    width: .2rem;
+                    right: .03rem;
+                    bottom: .96rem;
+                    height: .2rem;
+                    padding: .1rem;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
 
                     img {
-                        width: 20px;
-                        height: 20px;
+                        line-height: .2rem;
+                        width: 100%;
+                        height: 100%;
                     }
                 }
 
                 .login_button {
-                    margin-top: 52px;
-                    width: 287px;
-                    height: 42px;
-                    border-radius: 4px;
+                    margin-top: .52rem;
+                    width: 2.87rem;
+                    height: .42rem;
+                    border-radius: .04rem;
                     outline: none;
                 }
             }
 
         }
 
+        //注册部分样式
+        .regiser_input_box {
+            width: 2.89rem;
+            // margin-left: .41rem;
+
+            .input_title {
+                display: inline-block;
+                width: .90rem;
+                height: .21rem;
+                font-size: .14rem;
+                opacity: .73;
+                font-family: PingFang-SC-Regular, PingFang-SC;
+                font-weight: 400;
+                color: #535568;
+                line-height: .20rem;
+                margin-bottom: .04rem;
+            }
+
+            .input_form {
+
+                .input_pwd_box {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    height: 1rem;
+                }
+                .fist_input_pwd,.last_input_pwd{
+                    position: relative;
+                }
+                .van-field {
+                    border-radius: .04rem;
+                    opacity: 0.4;
+                    border: 1px solid #535568;
+                    background: none;
+                }
+                .fist_input_pwd >.show_eyes{
+                    position: absolute;
+                    right: 0;
+                    bottom: .18rem;
+                }
+                .last_input_pwd >.show_eyes{
+                    position: absolute;
+                    right: 0;
+                    bottom: .28rem;
+                }
+                .show_eyes {
+                    width: .2rem;
+                    height: .2rem;
+                    padding: .1rem;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    img {
+                        line-height: .2rem;
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+
+                .agree_box {
+                    margin-top: .08rem;
+                    height: .17rem;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    font-size: .12rem;
+                    color: #999;
+                    letter-spacing: .01rem;
+                    .agree_btn,.agree_btn_click{
+                        display: inline-block;
+                        border-radius: 50%;
+                        width: .12rem;
+                        height: .12rem;
+                        margin: .03rem;
+                    }
+                    .agree_btn {
+                        border: 1px solid #999999;
+                        margin: .03rem;
+                    }
+                    .agree_btn_click {
+                        // background: #3CDAAF;
+                        border: 1px solid #00C58F;
+                        box-shadow: #00C58F 0px 0px .05rem inset;
+                    }
+
+                }
+
+                .login_button {
+                    margin-top: .52rem;
+                    width: 2.87rem;
+                    height: .42rem;
+                    border-radius: .04rem;
+                    outline: none;
+                }
+            }
+        }
+
         .toggle_state {
             display: inline-block;
-            width: 95.48px;
-            height: 21px;
-            font-size: 12px;
-            margin-left: 233px;
+            height: .21rem;
+            font-size: .12rem;
+            margin-left: 2.33rem;
             text-align: right;
-            line-height: 21px;
-            margin-top: 13px;
+            line-height: .21rem;
+            margin-top: .13rem;
             color: #25B4A5;
         }
     }
@@ -115,15 +218,15 @@
     footer {
         .statement_text {
             display: inline-block;
-            margin-left: 92px;
-            margin-top: 100px;
-            width: 192px;
-            height: 14px;
-            font-size: 12px;
+            margin-left: .92rem;
+            margin-top: 1rem;
+            width: 1.92rem;
+            height: .14rem;
+            font-size: .12rem;
             font-family: PingFang-SC-Regular, PingFang-SC;
             font-weight: 400;
             color: #92939F;
-            line-height: 14px;
+            line-height: .14rem;
         }
     }
 }

@@ -8,15 +8,18 @@ import {
   Form,
   Field,
   Cell,
-  CellGroup
+  CellGroup,
+  Toast
 } from 'vant';
 
-import './utils/rem'
+import './utils/rem.js'
+
 Vue.use(Button);
 Vue.use(Cell);
 Vue.use(Form)
 Vue.use(CellGroup)
 Vue.use(Field)
+Vue.prototype.$Toast = Toast
 Vue.config.productionTip = false
 
 new Vue({
