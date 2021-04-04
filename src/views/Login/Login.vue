@@ -15,11 +15,7 @@
         <van-form autocomplete="off" class="input_form">
           <div>
             <span class="input_title">用户名/room</span>
-            <van-field
-              v-model="username"
-              name="用户名"
-              placeholder="用户名"
-            />
+            <van-field v-model="username" name="用户名" placeholder="用户名" />
           </div>
           <div class="input_pwd_box">
             <span class="input_title" id="input_title_pwd">密码/key</span>
@@ -97,7 +93,7 @@
             </div>
             <div class="agree_box">
               <span
-                :class="agree_protocol ?'agree_btn_click':'agree_btn'"
+                :class="agree_protocol ? 'agree_btn_click' : 'agree_btn'"
                 @click="agree_protocol = !agree_protocol"
               ></span>
               <p>同意环信服务条款与环信隐私协议</p>
@@ -120,7 +116,7 @@
       </div>
       <div
         class="toggle_state"
-        @click="isLogin = !isLogin,agree_protocol = false"
+        @click=";(isLogin = !isLogin), (agree_protocol = false)"
         v-text="isLogin ? '注册账号' : '返回登陆'"
       >
         注册账号
@@ -151,36 +147,77 @@ export default {
     }
   },
   methods: {
-    toLogin(){
+    toLogin() {
+      let that = this
       if (!this.username && !this.password) {
-        this.$Toast('什么都没写！');
-      }else if (!this.username) {
-        this.$Toast('用户ID为空！');
-      }else if(!this.password){
+        this.$Toast('什么都没写！')
+      } else if (!this.username) {
+        this.$Toast('用户ID为空！')
+      } else if (!this.password) {
         this.$Toast('密码为空！')
-      }else{
-        console.log('登陆中');
+      } else {
+        console.log('登陆中')
+        this.$Toast.loading({
+          message: '加载中...',
+          forbidClick: true,
+        })
+        let options = {
+          user: this.username,
+          pwd: this.password,
+          appKey: this.$WebIM.config.appkey,
+          success() {
+            that.$Toast.clear()
+            that.username = ""
+            that.password = ""
+          },
+        }
+        this.$conn.open(options)
       }
     },
-    toRegister(){
-      if (!this.username && !this.password &&!this.confirmPwd) {
-        this.$Toast('什么都没写！');
-      }else if (!this.username) {
-        this.$Toast('用户ID为空！');
-      }else if(!this.password){
-        this.$Toast('fist密码为空！')
-      }else if(!this.confirmPwd){
-        this.$Toast('last密码为空！')
-      }else if(!this.confirmPwd){
-        this.$Toast('last密码为空！')
-      }else if(this.password !== this.confirmPwd){
+    toRegister() {
+      let that = this;
+      if (!this.username && !this.password && !this.confirmPwd) {
+        this.$Toast('什么都没写！')
+      } else if (!this.username) {
+        this.$Toast('用户ID为空！')
+      } else if (!this.password) {
+        this.$Toast('密码为空！')
+      } else if (!this.confirmPwd) {
+        this.$Toast('首次输入密码为空！')
+      } else if (!this.confirmPwd) {
+        this.$Toast('确认密码为空！')
+      } else if (this.password !== this.confirmPwd) {
         this.$Toast('两次密码不一致！')
-      }else if(!this.agree_protocol){
+      } else if (!this.agree_protocol) {
         this.$Toast('请勾选用户协议')
-      }else{
-        console.log('注册中');
+      } else {
+        // console.log('注册中')
+        let options = {
+          username: this.username,
+          password: this.password,
+          nickname: 'nickname', //暂时不用
+          appKey: this.$WebIM.config.appkey,
+          success: function() {
+            that.$Toast.success('注册成功！');
+          },
+          error: function(e) {
+            if (JSON.parse(e.data).error == "duplicate_unique_property_exists") {
+            that.$Toast.fail(`用户名已存在`)
+          } else if (JSON.parse(e.data).error == "illegal_argument") {
+            if (JSON.parse(e.data).error_description === "USERNAME_TOO_LONG") {
+              that.$Toast.fail('注册ID超过64个字节！')
+            }
+            that.$Toast.fail('注册ID不合法')
+          } else if (JSON.parse(e.data).error == "unauthorized") {
+            that.$Toast.fail('未开放注册模式！')
+          } else if (JSON.parse(e.data).error == "resource_limited") {
+            that.$Toast.fail('该Appkey用户注册数量已达上限,请升级至企业版！')
+          }
+          },
+        }
+       this.$conn.registerUser(options)
       }
-    }
+    },
   },
 }
 </script>

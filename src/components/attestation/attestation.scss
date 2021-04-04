@@ -1,0 +1,143 @@
+.attestation_box {
+    display: flex;
+    flex-direction: column;
+    background: #FFF;
+    height: 100%;
+
+    .attestation_box_header,
+    .attestation_box_profile,
+    .attestation_box_ID,
+    .attestation_box_certificate {
+        box-shadow: 0 0 .03rem #535568;
+    }
+
+    .attestation_box_header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 1.96rem;
+        overflow: hidden;
+
+        .img {
+            display: inline-block;
+            width: .33rem;
+            height: .33rem;
+            background: url('../../assets/imgs/形状结合@2x.png') no-repeat;
+            background-size: 100% 100%;
+
+        }
+
+        .text {
+            display: inline-block;
+            margin-top: .05rem;
+            width: 1.04rem;
+            height: .24rem;
+            font-size: .17rem;
+            color: #535568
+        }
+    }
+
+    .attestation_box_profile,
+    .attestation_box_ID {
+        height: 1.52rem;
+        background: #FFF;
+        display: flex;
+        flex-direction: column;
+        padding: .12rem 0 .19rem .26rem;
+        margin: .09rem 0;
+        font-size: .15rem;
+        color: #535568;
+    }
+
+    .attestation_box_profile {
+
+        .text {
+            display: inline-block;
+            width: .62rem;
+            height: .24rem;
+            font-family: PingFang-SC-Medium, PingFang-SC;
+            font-weight: 500;
+            line-height: .24rem;
+        }
+
+        img {
+            margin-top: .17rem;
+            width: .8rem;
+            height: .8rem;
+        }
+    }
+
+    .attestation_box_ID {
+        .img_box {
+            display: flex;
+            flex-direction: row;
+            height: .8rem;
+            margin-top: .17rem;
+
+            img {
+                width: .8rem;
+                height: .8rem;
+            }
+
+            img:last-of-type {
+                margin-left: .1rem;
+            }
+        }
+    }
+
+    .attestation_box_certificate {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: .12rem 0 .19rem .26rem;
+        height: 1.75rem;
+
+        .text {
+            display: inline-block;
+            // width: 2.99rem;
+            height: .24rem;
+            font-family: PingFang-SC-Medium, PingFang-SC;
+            font-weight: 500;
+            line-height: .24rem;
+            font-size: .15rem;
+            color: #535568;
+
+            b {
+                color: red;
+            }
+        }
+
+        img {
+            margin-top: .17rem;
+            width: .8rem;
+            height: .8rem;
+        }
+
+        .tip {
+            display: inline-block;
+            // width: 2.65rem;
+            height: .24rem;
+            font-size: .10rem;
+            font-family: PingFang-SC-Medium, PingFang-SC;
+            font-weight: 500;
+            color: #9FA4AE;
+            line-height: .24rem;
+
+        }
+    }
+
+    .modify_btn_box{
+        display: flex;
+        justify-content: center;
+        height: 1rem;
+        margin: .14rem 0 0 0;
+        .modify_btn {
+            width: 3.37rem;
+            height: .42rem;
+            // background: linear-gradient(169deg, #07C193 0%, #3EAAB4 100%);
+            border-radius: .04rem;
+        }
+    }
+   
+}
