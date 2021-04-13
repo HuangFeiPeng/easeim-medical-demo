@@ -15,7 +15,7 @@
       <div class="attestation_box_profile">
         <p class="text">医生头像</p>
         <img
-          src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimgs2.5201000.com%2FUploadFiles%2FImage%2F2018%2F8%2F28%2FHeaven%2FImgInfo%2FImageImgPath%2F164aeb6bdb724f4889b162140d49b8ac.jpg&refer=http%3A%2F%2Fimgs2.5201000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1619770994&t=cb743ccfbb4a4b505bc1aa52be29608d"
+          src="../../assets/imgs/占位01.jpeg"
           alt=""
         />
       </div>
@@ -23,11 +23,11 @@
         <p class="text">身份证件(正反面需均需上传)</p>
         <div class="img_box">
           <img
-            src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimgs2.5201000.com%2FUploadFiles%2FImage%2F2018%2F8%2F28%2FHeaven%2FImgInfo%2FImageImgPath%2F164aeb6bdb724f4889b162140d49b8ac.jpg&refer=http%3A%2F%2Fimgs2.5201000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1619770994&t=cb743ccfbb4a4b505bc1aa52be29608d"
+            src="../../assets/imgs/占位02.jpeg"
             alt=""
           />
           <img
-            src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimgs2.5201000.com%2FUploadFiles%2FImage%2F2018%2F8%2F28%2FHeaven%2FImgInfo%2FImageImgPath%2F164aeb6bdb724f4889b162140d49b8ac.jpg&refer=http%3A%2F%2Fimgs2.5201000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1619770994&t=cb743ccfbb4a4b505bc1aa52be29608d"
+            src="../../assets/imgs/占位03.jpeg"
             alt=""
           />
         </div>
@@ -35,7 +35,7 @@
       <div class="attestation_box_certificate">
         <p class="text"><b>*</b>胸牌/执业证/资格证/职称证，至少上传一项</p>
         <img
-          src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimgs2.5201000.com%2FUploadFiles%2FImage%2F2018%2F8%2F28%2FHeaven%2FImgInfo%2FImageImgPath%2F164aeb6bdb724f4889b162140d49b8ac.jpg&refer=http%3A%2F%2Fimgs2.5201000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1619770994&t=cb743ccfbb4a4b505bc1aa52be29608d"
+          src="../../assets/imgs/占位01.jpeg"
           alt=""
         />
         <p class="tip">照片仅用作认证，平台会保护您的隐私，不会泄露给第三方</p>

@@ -3,10 +3,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import WebIM from'./utils/WebIM'
-import vuescroll from "vuescroll/dist/vuescroll-slide" //滚动插件
-
-
 import './utils/rem.js' //rem布局进行的配置
+import './mock/index';
 //Vant UI的按需引入
 import {
   Button,
@@ -19,11 +17,13 @@ import {
   Tabbar,
   TabbarItem,
   NavBar,
-  Switch
+  Switch,
+  Empty,
+  Tag,
+  NoticeBar,
+  Sticky
 } from 'vant';
-
 Vue.use(WebIM)
-Vue.use(vuescroll)
 Vue.use(Button)
 Vue.use(Cell)
 Vue.use(Form)
@@ -34,6 +34,10 @@ Vue.use(TabbarItem)
 Vue.use(NavBar)
 Vue.use(Icon)
 Vue.use(Switch)
+Vue.use(Empty)
+Vue.use(Tag)
+Vue.use(NoticeBar)
+Vue.use(Sticky)
 Vue.prototype.$Toast = Toast
 Vue.prototype.$WebIM = WebIM
 Vue.prototype.$conn = WebIM.conn

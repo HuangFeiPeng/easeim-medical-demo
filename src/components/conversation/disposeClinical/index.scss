@@ -1,0 +1,127 @@
+.disposeClinical {
+    height: 100vh;
+    overflow: hidden;
+    background: #f7f8fa;
+
+    .nav_bar {
+        background: #f7f8fa;
+
+        .text {
+            color: #535568;
+            font-size: .17rem;
+            font-weight: 500;
+        }
+    }
+
+    .patient_content {
+        margin-top: .5rem;
+        overflow: hidden;
+
+        .patient_content_box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 5.12rem;
+            overflow-x: hidden;
+            overflow-y: scroll;
+
+            time {
+                margin-top: .15rem;
+                width: .26rem;
+                height: .14rem;
+                font-size: .1rem;
+                font-family: PingFangSC-Regular, PingFang SC;
+                font-weight: 400;
+                color: #A3A3A3;
+                line-height: .14rem;
+            }
+
+            .main_box {
+                min-height: 5.12rem;
+                min-width: 3.25rem;
+                padding: .2rem .15rem 0 .16rem;
+                background: #FFF;
+                border-radius: .04rem;
+
+                .title {
+                    display: inline-block;
+                    height: .24rem;
+                    color: #535568;
+                    font-size: .17rem;
+                }
+
+                .person_info {
+                    width: 3.01rem;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+
+                    p {
+
+                        span {
+                            display: inline-block;
+                            width: .6rem;
+                            color: #959AA4;
+                            margin-right: .1rem;
+                        }
+
+                        display: inline-block;
+                        height: .2rem;
+                        color: #535568;
+                        font-size: .14rem;
+                        margin: .05rem 0;
+                    }
+                }
+
+                .onepxLine {
+                    margin-left: .99rem;
+                    width: 1.3rem;
+                    height: .2rem;
+                }
+
+                .illness_details {
+                    margin-top: .16rem;
+                    display: flex;
+                    flex-direction: column;
+                    font-size: .14rem;
+                    color: #9FA4AE;
+
+                    p {
+                        margin-top: .07rem;
+                        line-height: .24rem;
+                    }
+
+                    .illness_details_img {
+                        margin-top: .09rem;
+                        height: .57rem;
+
+                        ul {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            justify-content: space-between;
+                        }
+                    }
+                }
+
+            }
+
+            .changBtn {
+                margin-top: .41rem;
+                width: 100%;
+                height: .48rem;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+                align-items: center;
+                span{
+                    font-size: .17rem;
+                    width: 1.28rem;
+                    height: .36rem;
+                    line-height: .36rem;
+                    border-radius: .04rem;
+                }
+            }
+        }
+    }
+}

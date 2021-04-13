@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
+import store from '@/store/index';
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    redirect: "/login"
+    redirect: "/login" //默认重定向为登陆
   },
   {
     path: '/login',
@@ -57,11 +57,38 @@ const routes = [
         name:'Inquiry_server',
         component:() => import('../components/setSome/inquiry_server/inquiry_server.vue')
 
+  },
+  {
+        path:'/general_server',
+        name:'General_server',
+        component:() => import('../components/setSome/general_server/general_server.vue')
+
+  },
+  {
+        path:'/disposeClinical',
+        name:'DisposeClinical',
+        meta:{
+          title:'患者详情'
+        },
+        component:() => import('../components/conversation/disposeClinical/index.vue')
+
   }
 ]
 
+
 const router = new VueRouter({
   routes
+})
+router.beforeEach((to, from, next) => {
+  let loginState = store.state.loginState;
+  if (to.name) {
+    next()
+    if (!loginState && to.name !=='Login') {
+      next('/login')
+      console.log('>>>>未登录');
+    }
+  }
+  
 })
 
 export default router

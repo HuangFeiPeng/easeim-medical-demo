@@ -8,11 +8,11 @@
     </van-nav-bar>
     <div class="setting_main_box">
       <div class="setting_main_header">
-        <img src="../../assets/imgs/头像／单人头像-圆形备份 4@2x.png" alt="" />
-        <span>老中医-王鑫</span>
+        <img src="../../assets/imgs/占位04.jpeg" alt="" />
+        <span>王祖贤</span>
       </div>
       <div class="setting_main_func">
-        <div class="setting_main_func_list" @click="toINquiry">
+        <div class="setting_main_func_list" @click="$router.push('/inquiry_server')">
           <div>
             <img src="../../assets/imgs/icon／我的设置@2x.png" alt="" /><span
               >问诊服务设置</span
@@ -20,7 +20,7 @@
           </div>
           <van-icon class="icon_arrow" name="arrow" />
         </div>
-        <div class="setting_main_func_list">
+        <div class="setting_main_func_list" @click="$router.push('/general_server')">
           <div>
             <img src="../../assets/imgs/icon／设置@2x.png" alt="" /><span
               >通用设置</span
@@ -33,18 +33,19 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex';
 export default {
-  name: 'Attestation',
+  name: 'Setting',
   data() {
     return {
       title: '个人设置',
     }
   },
-  methods: {
-    toINquiry(){
-        this.$router.push('/inquiry_server')
-    }
-  },
+  computed: {
+   ...mapState({
+     price:state=>{state.Setting.customPrice}
+   })
+  }
 }
 </script>
 <style lang="scss" scoped>

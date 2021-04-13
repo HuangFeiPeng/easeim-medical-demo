@@ -8,7 +8,7 @@
       inactive-color="#494b5c"
       route
     >
-      <van-tabbar-item replace to="/home/conversation" badge="99+" icon="wap-home"
+      <van-tabbar-item replace to="/home/conversation" badge="1" icon="wap-home"
         >首页</van-tabbar-item
       >
       <van-tabbar-item replace to="/home/attestation" icon="manager"
@@ -37,6 +37,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import url('./Home.scss');
+
 .tab_bar {
   background: #f7f8fa;
   .van-tabbar-item--active {

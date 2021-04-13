@@ -1,0 +1,63 @@
+.general_server {
+    background: #f7f8fa;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    .nav_bar {
+        background: #f7f8fa;
+
+        .text {
+            color: #535568;
+        }
+    }
+
+    .general_server_main {
+        margin-top: .44rem;
+        display: flex;
+        flex-direction: column;
+
+        .setNotice,
+        .change_pwd,
+        .logout {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            height: .48rem;
+            font-size: .15rem;
+            padding: 0 .22rem 0 .2rem;
+            background: #FFF;
+            color: #535568;
+        }
+
+        .setNotice {
+            p {
+                display: inline-block;
+                width: .92rem;
+                height: .24rem;
+                font-weight: 500;
+                line-height: 24px;
+            }
+        }
+
+        .exit_box {
+            position: absolute;
+            bottom: .41rem;
+            left: .19rem;
+            height: .42rem;
+            display: flex;
+            justify-content: center;
+            .btn{
+                font-size: .17rem;
+                border-radius: .04rem;
+                border: none;
+                background: #fff;
+                width: 3.37rem;
+                color: red;
+                &:active{
+                    background-color: rgba(255, 255, 255, 0.548);
+                }
+            }
+        }
+    }
+}

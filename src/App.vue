@@ -6,15 +6,28 @@
 <script>
 export default {
   created() {
-    let vm = this; //该this为Vue实例
-    console.log(this);
+    let vm = this //该this为Vue实例
+    console.log(this)
     this.$conn.listen({
       onOpened: function() {
-        vm.$Toast.success('登陆成功');
-        vm.$store.commit('changeUserState', {condition:"loginSuccess"}),
-        vm.$router.push('/home').catch(err=>{console.log(err);})
+        vm.$Toast.success('登陆成功')
+        vm.$store.commit('changeUserState', { condition: 'loginSuccess' }),
+          vm.$router.push('/home').catch((err) => {
+            console.log(err)
+          })
+        vm.$store.dispatch('getConverData')
       }, //连接成功回调
-      onClosed: function() {console.log('>>>>连接关闭')}, //连接关闭回调
+      onClosed: function() {
+        console.log('>>>>连接关闭')
+        vm.$store.commit('changeUserState', { condition: 'socketClosed' }),
+          vm.$Toast.success('已退出')
+        setTimeout(() => {
+          vm.$router.push('/login').catch((err) => {
+            console.log(err)
+          }),
+            vm.$Toast.clear()
+        }, 700)
+      }, //连接关闭回调
       onTextMessage: function(message) {}, //收到文本消息
       onEmojiMessage: function(message) {}, //收到表情消息
       onPictureMessage: function(message) {}, //收到图片消息
@@ -48,7 +61,7 @@ export default {
       onOnline: function() {}, //本机网络连接成功
       onOffline: function() {}, //本机网络掉线
       onError: function(message) {
-        console.log('>>>>>>error',message);
+        console.log('>>>>>>error', message)
       }, //失败回调
       onBlacklistUpdate: function(list) {
         //黑名单变动
@@ -68,6 +81,5 @@ export default {
 </script>
 <style>
 @import url('./assets/initCss/_reset.scss');
-
 /* @import url('./assets/initCss/_minxin.scss'); */
 </style>

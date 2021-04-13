@@ -134,8 +134,8 @@ export default {
   data() {
     return {
       isLogin: true, //0 登陆 1 注册
-      username: '',
-      password: '',
+      username: 'hfp',
+      password: '1',
       confirmPwd: '',
       isShowPwd: false,
       agree_protocol: false,
@@ -155,7 +155,10 @@ export default {
         this.$Toast('用户ID为空！')
       } else if (!this.password) {
         this.$Toast('密码为空！')
-      } else {
+      }else if(this.$store.state.loginState){
+        this.$Toast('已为登陆状态')
+        this.$router.push('/home')
+      }else {
         console.log('登陆中')
         this.$Toast.loading({
           message: '加载中...',
