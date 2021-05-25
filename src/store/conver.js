@@ -26,15 +26,19 @@ const conversation = {
             state.nowPanientDetil = payload
         },
         //更改诊断状态
-        changeDiagnoseState:(state,payload)=>{
-            const {name,stateNum} = payload
-             let index = _.findIndex(state.conversationList, function(o) { return o.name == name; });
+        changeDiagnoseState: (state, payload) => {
+            const {
+                name,
+                stateNum
+            } = payload
+            let index = _.findIndex(state.conversationList, function (o) {
+                return o.name == name;
+            });
             console.log(state.conversationList[index]);
-            if (name === state.nowPanientDetil.name) {
+            if (name === state.nowPanientDetil.name) { //如果传入的name 为当前选中的用户name,则同步修改diagnoseState
                 state.nowPanientDetil.diagnoseState = stateNum
             }
             state.conversationList[index].diagnoseState = stateNum
-            
         }
     },
     actions: {
@@ -76,7 +80,7 @@ const conversation = {
                     name,
                     detil
                 }
-                context.commit('uploadPanientDetil',info);
+                context.commit('uploadPanientDetil', info);
             }).catch(err => {
                 console.log('>>>请求失败', err);
             })

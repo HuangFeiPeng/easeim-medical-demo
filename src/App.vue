@@ -4,6 +4,7 @@
   </div>
 </template>
 <script>
+// import vconsole from ''
 export default {
   created() {
     let vm = this //该this为Vue实例

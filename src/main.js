@@ -2,11 +2,17 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import WebIM from'./utils/WebIM'
+import WebIM from './utils/WebIM'
+// console.log(new WebIM);
+// 引入Vconsole
+import Vconsole from 'vconsole'
+new Vconsole();
 import './utils/rem.js' //rem布局进行的配置
 import './mock/index';
 //Vant UI的按需引入
 import {
+  Col,
+  Row,
   Button,
   Icon,
   Form,
@@ -21,9 +27,10 @@ import {
   Empty,
   Tag,
   NoticeBar,
-  Sticky
+  Sticky,
+  PullRefresh,
+  Popup
 } from 'vant';
-Vue.use(WebIM)
 Vue.use(Button)
 Vue.use(Cell)
 Vue.use(Form)
@@ -38,6 +45,9 @@ Vue.use(Empty)
 Vue.use(Tag)
 Vue.use(NoticeBar)
 Vue.use(Sticky)
+Vue.use(Col)
+Vue.use(Row)
+Vue.use(PullRefresh).use(Popup)
 Vue.prototype.$Toast = Toast
 Vue.prototype.$WebIM = WebIM
 Vue.prototype.$conn = WebIM.conn

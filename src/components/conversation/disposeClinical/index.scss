@@ -1,6 +1,9 @@
 .disposeClinical {
-    height: 100vh;
-    overflow: hidden;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
     background: #f7f8fa;
 
     .nav_bar {
@@ -14,34 +17,35 @@
     }
 
     .patient_content {
-        margin-top: .5rem;
-        overflow: hidden;
+        position: fixed;
+        top: .46rem;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow: auto;
 
         .patient_content_box {
             display: flex;
             flex-direction: column;
             align-items: center;
-            height: 5.12rem;
-            overflow-x: hidden;
-            overflow-y: scroll;
 
             time {
-                margin-top: .15rem;
+                margin-top: .5rem;
+                margin-bottom: .07rem;
                 width: .26rem;
                 height: .14rem;
                 font-size: .1rem;
-                font-family: PingFangSC-Regular, PingFang SC;
                 font-weight: 400;
                 color: #A3A3A3;
                 line-height: .14rem;
             }
 
             .main_box {
-                min-height: 5.12rem;
-                min-width: 3.25rem;
+                max-height: 5.12rem;
+                max-width: 3.25rem;
                 padding: .2rem .15rem 0 .16rem;
-                background: #FFF;
                 border-radius: .04rem;
+                background: #fff;
 
                 .title {
                     display: inline-block;
@@ -114,7 +118,8 @@
                 flex-direction: row;
                 justify-content: space-around;
                 align-items: center;
-                span{
+
+                span {
                     font-size: .17rem;
                     width: 1.28rem;
                     height: .36rem;

@@ -155,10 +155,10 @@ export default {
         this.$Toast('用户ID为空！')
       } else if (!this.password) {
         this.$Toast('密码为空！')
-      }else if(this.$store.state.loginState){
+      } else if (this.$store.state.loginState) {
         this.$Toast('已为登陆状态')
         this.$router.push('/home')
-      }else {
+      } else {
         console.log('登陆中')
         this.$Toast.loading({
           message: '加载中...',
@@ -170,15 +170,15 @@ export default {
           appKey: this.$WebIM.config.appkey,
           success() {
             that.$Toast.clear()
-            that.username = ""
-            that.password = ""
+            that.username = ''
+            that.password = ''
           },
         }
         this.$conn.open(options)
       }
     },
     toRegister() {
-      let that = this;
+      let that = this
       if (!this.username && !this.password && !this.confirmPwd) {
         this.$Toast('什么都没写！')
       } else if (!this.username) {
@@ -201,24 +201,28 @@ export default {
           nickname: 'nickname', //暂时不用
           appKey: this.$WebIM.config.appkey,
           success: function() {
-            that.$Toast.success('注册成功！');
+            that.$Toast.success('注册成功！')
           },
           error: function(e) {
-            if (JSON.parse(e.data).error == "duplicate_unique_property_exists") {
-            that.$Toast.fail(`用户名已存在`)
-          } else if (JSON.parse(e.data).error == "illegal_argument") {
-            if (JSON.parse(e.data).error_description === "USERNAME_TOO_LONG") {
-              that.$Toast.fail('注册ID超过64个字节！')
+            if (
+              JSON.parse(e.data).error == 'duplicate_unique_property_exists'
+            ) {
+              that.$Toast.fail(`用户名已存在`)
+            } else if (JSON.parse(e.data).error == 'illegal_argument') {
+              if (
+                JSON.parse(e.data).error_description === 'USERNAME_TOO_LONG'
+              ) {
+                that.$Toast.fail('注册ID超过64个字节！')
+              }
+              that.$Toast.fail('注册ID不合法')
+            } else if (JSON.parse(e.data).error == 'unauthorized') {
+              that.$Toast.fail('未开放注册模式！')
+            } else if (JSON.parse(e.data).error == 'resource_limited') {
+              that.$Toast.fail('该Appkey用户注册数量已达上限,请升级至企业版！')
             }
-            that.$Toast.fail('注册ID不合法')
-          } else if (JSON.parse(e.data).error == "unauthorized") {
-            that.$Toast.fail('未开放注册模式！')
-          } else if (JSON.parse(e.data).error == "resource_limited") {
-            that.$Toast.fail('该Appkey用户注册数量已达上限,请升级至企业版！')
-          }
           },
         }
-       this.$conn.registerUser(options)
+        this.$conn.registerUser(options)
       }
     },
   },

@@ -1,4 +1,5 @@
 <template>
+  <!-- 患者详情页 -->
   <div class="disposeClinical">
     <van-nav-bar class="nav_bar" fixed>
       <template #title>
@@ -6,14 +7,19 @@
       </template>
       <template #left>
         <van-icon
-          @click="$router.go(-1)"
+          @click="$router.push('/home/conversation')"
           name="arrow-left"
           size="25"
           color="#333"
         />
       </template>
     </van-nav-bar>
-    <div class="patient_content" ref="container">
+    <router-view v-if="$route.name === 'ChatContent'"></router-view>
+    <div
+      class="patient_content"
+      ref="container"
+      v-if="$route.name !== 'ChatContent'"
+    >
       <!-- 吸顶通知条 -->
       <van-sticky :container="container" :offset-top="50">
         <van-notice-bar
@@ -88,15 +94,27 @@
           </div>
         </div>
         <!-- 功能按钮已退诊以及问诊结束不显示  -->
-        <div class="changBtn" >
-          <van-button style="color:#25B4A5; border:.02rem solid #25B4A5;" v-if="patientInfo.diagnoseState === 0">
+        <div class="changBtn">
+          <van-button
+            style="color:#25B4A5; border:.02rem solid #25B4A5;"
+            v-if="patientInfo.diagnoseState === 0"
+            @click="refuseReception"
+          >
             退诊
           </van-button>
-          <van-button color="linear-gradient(169deg, #07C193 0%, #3EAAB4 100%)" v-if="patientInfo.diagnoseState === 0" @click="agreeReception">
+          <van-button
+            color="linear-gradient(169deg, #07C193 0%, #3EAAB4 100%)"
+            v-if="patientInfo.diagnoseState === 0"
+            @click="agreeReception"
+          >
             接诊
           </van-button>
-          <van-button color="linear-gradient(169deg, #07C193 0%, #3EAAB4 100%)" v-if="patientInfo.diagnoseState === 1">
-            继续问诊
+          <van-button
+            color="linear-gradient(169deg, #07C193 0%, #3EAAB4 100%)"
+            v-if="patientInfo.diagnoseState === 1"
+            @click="startReception"
+          >
+            开始问诊
           </van-button>
         </div>
       </div>
@@ -105,7 +123,7 @@
 </template>
 <script>
 import './index.scss'
-import { mapState,mapMutations } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 export default {
   data() {
     return {
@@ -122,7 +140,6 @@ export default {
       },
     }
   },
-
   computed: {
     ...mapState({
       patientInfo: (state) => state.Conversation.nowPanientDetil,
@@ -131,17 +148,20 @@ export default {
   methods: {
     ...mapMutations(['changeDiagnoseState']),
     //接诊
-    agreeReception(){
-      let name = this.patientInfo.name;
-      this.changeDiagnoseState({name:name,stateNum:1})
+    agreeReception() {
+      let name = this.patientInfo.name
+      this.changeDiagnoseState({ name: name, stateNum: 1 })
+      this.$Toast.success('接诊成功')
     },
     //退诊
-    refuseReception(){
-
-    }
+    refuseReception() {
+      let name = this.patientInfo.name
+      this.$router.push({ path: '/refuseReception', query: { name: name } })
+    },
+    //开始接诊
+    startReception() {
+      this.$router.push('/disposeClinical/chat_content')
+    },
   },
 }
 </script>
-<style lang="scss" scoped>
-// @import url('./index.scss');
-</style>

@@ -5,7 +5,7 @@ let config = {
 
     appkey: '1110201022157933#ceshi2', // App key
 
-    https: false, // 是否使用https
+    https: true, // 是否使用https
 
     isHttpDNS: true, // 3.0 SDK支持，防止DNS劫持从服务端获取XMPPUrl、restUrl
 

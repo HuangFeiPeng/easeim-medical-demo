@@ -1,6 +1,12 @@
 <template>
+  <!-- 会话列表部分 -->
   <div class="home">
-    <!-- <p>home</p> -->
+    <!-- nav部分 不用动 -->
+    <van-nav-bar class="nav_bar" fixed>
+      <template #title>
+        <p v-text="$route.meta.title" class="text"></p>
+      </template>
+    </van-nav-bar>
     <router-view />
     <van-tabbar
       class="tab_bar"
@@ -18,14 +24,15 @@
         >设置</van-tabbar-item
       >
     </van-tabbar>
-
   </div>
 </template>
 <script>
+import './Home.scss'
 export default {
   name: 'Home',
   data() {
     return {
+      title: '',
       active: 0,
       icon: {
         active: 'https://img01.yzcdn.cn/vant/user-active.png',
@@ -33,15 +40,6 @@ export default {
       },
     }
   },
+  methods: {},
 }
 </script>
-<style lang="scss" scoped>
-@import url('./Home.scss');
-
-.tab_bar {
-  background: #f7f8fa;
-  .van-tabbar-item--active {
-    background-color: #f7f8fa;
-  }
-}
-</style>

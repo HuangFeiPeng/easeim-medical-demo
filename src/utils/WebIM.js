@@ -1,5 +1,6 @@
 import websdk from 'easemob-websdk';
 import config from './WebIMConfig';
+console.log(config);
 let conn = {}
 let WebIM = {}
 WebIM = websdk
@@ -20,3 +21,11 @@ conn = WebIM.conn = new WebIM.connection({
 // WebIM.config 为之前集成里介绍的WebIMConfig.js
 
 export default WebIM
+
+// export default class WebIM {
+//     constructor() {
+//         this.conn = new websdk.connection({
+//             ...config
+//         })
+//     }
+// }

@@ -1,6 +1,10 @@
 .login {
-    // height: 8.12rem;
-    overflow: hidden;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
 
     header {
         .login_header {
@@ -131,25 +135,31 @@
                     justify-content: center;
                     height: 1rem;
                 }
-                .fist_input_pwd,.last_input_pwd{
+
+                .fist_input_pwd,
+                .last_input_pwd {
                     position: relative;
                 }
+
                 .van-field {
                     border-radius: .04rem;
                     opacity: 0.4;
                     border: 1px solid #535568;
                     background: none;
                 }
-                .fist_input_pwd >.show_eyes{
+
+                .fist_input_pwd>.show_eyes {
                     position: absolute;
                     right: 0;
                     bottom: .18rem;
                 }
-                .last_input_pwd >.show_eyes{
+
+                .last_input_pwd>.show_eyes {
                     position: absolute;
                     right: 0;
                     bottom: .28rem;
                 }
+
                 .show_eyes {
                     width: .2rem;
                     height: .2rem;
@@ -174,17 +184,21 @@
                     font-size: .12rem;
                     color: #999;
                     letter-spacing: .01rem;
-                    .agree_btn,.agree_btn_click{
+
+                    .agree_btn,
+                    .agree_btn_click {
                         display: inline-block;
                         border-radius: 50%;
                         width: .12rem;
                         height: .12rem;
                         margin: .03rem;
                     }
+
                     .agree_btn {
                         border: 1px solid #999999;
                         margin: .03rem;
                     }
+
                     .agree_btn_click {
                         // background: #3CDAAF;
                         border: 1px solid #00C58F;
