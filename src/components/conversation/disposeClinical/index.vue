@@ -3,7 +3,7 @@
   <div class="disposeClinical">
     <van-nav-bar class="nav_bar" fixed>
       <template #title>
-        <p class="text">{{ patientInfo.name || '患者昵称' }}</p>
+        <p class="text">{{ patientInfo.name || "患者昵称" }}</p>
       </template>
       <template #left>
         <van-icon
@@ -44,28 +44,28 @@
           <div class="person_info" v-if="patientInfo.detil">
             <h1 class="title">患者信息</h1>
             <p>
-              <span>基本信息</span> {{ patientInfo.name || '患者名' }} |
-              {{ patientInfo.detil.personal_details.sex ? '男' : '女' }} |
-              {{ patientInfo.detil.personal_details.age + '岁' }} |
-              {{ patientInfo.detil.personal_details.weight + 'kg' }}
+              <span>基本信息</span> {{ patientInfo.name || "患者名" }} |
+              {{ patientInfo.detil.personal_details.sex ? "男" : "女" }} |
+              {{ patientInfo.detil.personal_details.age + "岁" }} |
+              {{ patientInfo.detil.personal_details.weight + "kg" }}
             </p>
             <p>
               <span>肝肾功能</span
               >{{
                 patientInfo.detil.personal_details.liver
-                  ? '肝功能正常'
-                  : '肝功能障碍'
+                  ? "肝功能正常"
+                  : "肝功能障碍"
               }}
               |
               {{
                 patientInfo.detil.personal_details.kidney
-                  ? '肾功能正常'
-                  : '肾功能障碍'
+                  ? "肾功能正常"
+                  : "肾功能障碍"
               }}
             </p>
             <p>
               <span>孕育情况</span
-              >{{ patientInfo.detil.personal_details.breed ? '怀了' : '无' }}
+              >{{ patientInfo.detil.personal_details.breed ? "怀了" : "无" }}
             </p>
             <p>
               <span>过敏史</span>{{ patientInfo.detil.personal_details.irr }}
@@ -122,46 +122,50 @@
   </div>
 </template>
 <script>
-import './index.scss'
-import { mapState, mapMutations } from 'vuex'
+import "./index.scss";
+import { mapState, mapMutations } from "vuex";
 export default {
   data() {
     return {
       container: null,
       navText: {
-        '0': {
-          text: '等待接诊中，两小时内为接诊将自动退诊',
-          background: '#E1F0F1',
-          color: '#F7B500',
+        "0": {
+          text: "等待接诊中，两小时内为接诊将自动退诊",
+          background: "#E1F0F1",
+          color: "#F7B500"
         },
-        '1': { text: '接诊进行中...', background: '#E1F0F1', color: '#25B4A5' },
-        '2': { text: '问诊结束...', background: '#E1F0F1', color: '#0074FA' },
-        '3': { text: '已退诊...', background: '#E1F0F1', color: '#DC143C' },
-      },
-    }
+        "1": { text: "接诊进行中...", background: "#E1F0F1", color: "#25B4A5" },
+        "2": { text: "问诊结束...", background: "#E1F0F1", color: "#0074FA" },
+        "3": { text: "已退诊...", background: "#E1F0F1", color: "#DC143C" }
+      }
+    };
   },
   computed: {
     ...mapState({
-      patientInfo: (state) => state.Conversation.nowPanientDetil,
-    }),
+      patientInfo: state => state.Conversation.nowPanientDetil
+    })
   },
   methods: {
-    ...mapMutations(['changeDiagnoseState']),
+    ...mapMutations(["changeDiagnoseState"]),
     //接诊
     agreeReception() {
-      let name = this.patientInfo.name
-      this.changeDiagnoseState({ name: name, stateNum: 1 })
-      this.$Toast.success('接诊成功')
+      let name = this.patientInfo.name;
+      this.changeDiagnoseState({ name: name, stateNum: 1 });
+      this.$Toast.success("接诊成功");
     },
     //退诊
     refuseReception() {
-      let name = this.patientInfo.name
-      this.$router.push({ path: '/refuseReception', query: { name: name } })
+      let name = this.patientInfo.name;
+      this.$router.push({ path: "/refuseReception", query: { name } });
     },
     //开始接诊
     startReception() {
-      this.$router.push('/disposeClinical/chat_content')
-    },
-  },
-}
+      let HxId = this.patientInfo.HxId;
+      this.$router.push({
+        path: "/disposeClinical/chat_content",
+        query: { HxId }
+      });
+    }
+  }
+};
 </script>

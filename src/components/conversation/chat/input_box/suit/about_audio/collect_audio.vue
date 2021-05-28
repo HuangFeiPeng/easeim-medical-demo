@@ -114,9 +114,12 @@ export default {
             this.voice.length = Math.ceil(this.amrRec.getDuration());
             // 获取音频文件
             this.voice.src = this.amrRec.getBlob();
+            this.$emit("sendAudioData", {
+              src: this.voice.src,
+              length: this.voice.length
+            });
             clearInterval(this.voice.interval);
             this.initVocie();
-            console.log(">>>>>>>>src", this.voice.src);
           }
         })
         .catch(() => {

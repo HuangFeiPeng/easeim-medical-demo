@@ -1,7 +1,12 @@
 <template>
   <div>
-    <div class="file_box" @click="sendFile">
-      <input type="file" ref="updataFile" style="display:none;" />
+    <div class="file_box" @click="upDataFile">
+      <input
+        type="file"
+        ref="updataFile"
+        style="display:none;"
+        @change="sendFile"
+      />
       <img src="@/assets/imgs/about_input/icon／文件@2x.png" alt="" />
     </div>
   </div>
@@ -12,8 +17,12 @@ export default {
     return {};
   },
   methods: {
-    sendFile() {
+    upDataFile() {
       this.$refs["updataFile"].click();
+    },
+    sendFile() {
+      let el = this.$refs["updataFile"];
+      this.$emit("sendFile", el);
     }
   }
 };

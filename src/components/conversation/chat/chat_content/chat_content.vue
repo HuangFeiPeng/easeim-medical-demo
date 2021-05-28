@@ -12,7 +12,7 @@
         </div>
       </div>
     </div>
-    <InputBox ref="input_box" />
+    <InputBox ref="input_box" :hx_id="HxId" />
   </div>
 </template>
 <script>
@@ -22,7 +22,8 @@ import BScroll from "@better-scroll/core";
 export default {
   data() {
     return {
-      count: 50,
+      HxId: this.$route.query.HxId || "",
+      count: 100,
       isLoading: false
     };
   },
@@ -45,19 +46,12 @@ export default {
   },
   methods: {
     initScroll() {
-      this.bs = new BScroll(this.$refs["scroll"], {
-        probeType: 3,
-        click: true
-      });
-      this.bs.scrollTo(0, -12000, 0);
-      this.bs.on("scrollStart", () => {
-        console.log("scrollStart-");
-      });
-      this.bs.on("scroll", ({ y }) => {
-        console.log("scrolling-");
-      });
-      this.bs.on("scrollEnd", pos => {
-        console.log(pos);
+      this.$nextTick(() => {
+        this.bs = new BScroll(this.$refs["scroll"], {
+          // probeType: 3,
+          click: true
+        });
+        this.bs.scrollTo(0, -12000, 0);
       });
     },
     initAllInputStatus() {

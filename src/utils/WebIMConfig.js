@@ -4,6 +4,7 @@ let config = {
     restServer: '//a1.easemob.com', // rest Server地址
 
     appkey: '1110201022157933#ceshi2', // App key
+    // appkey: 'easemob-demo#easeim', // App key
 
     https: true, // 是否使用https
 

@@ -1,8 +1,10 @@
 import {
     getConData,
     getPatientInfor
-} from '@/api/index'
+} from '@/api/index';
+import Storage from '@/utils/Storage';
 import _ from 'lodash';
+const localConverList = Storage.getStorage('conversationList');
 const conversation = {
     state: {
         isEmpty: true, //会话空状态
@@ -44,22 +46,33 @@ const conversation = {
     actions: {
         //请求会话数据
         getConverData: (context, parms) => {
-            getConData().then(res => {
-                let converData = res.data;
-                converData.forEach(item => {
-                    // console.log(item);
-                });
-                if (!converData.length || converData.length == 0) {
+            //如果本地存在有会话list那么直接取本地的会话list，如果没有则调用接口请求。
+            if (!localConverList) {
+                getConData().then(res => {
+                    let converData = res.data;
+                    if (!converData.length || converData.length == 0) {
+                        context.commit('changeEmpty', true)
+                    } else {
+                        context.commit('changeEmpty', false)
+                    }
+                    Storage.setStorage('conversationList', converData);
+                    context.commit('updataConversationList', {
+                        data: converData
+                    })
+                }).catch(err => {
+                    console.log('>>>>>>接口请求失败', err);
+                })
+            } else {
+                if (!localConverList.length || localConverList.length == 0) {
                     context.commit('changeEmpty', true)
                 } else {
                     context.commit('changeEmpty', false)
                 }
                 context.commit('updataConversationList', {
-                    data: converData
+                    data: localConverList
                 })
-            }).catch(err => {
-                console.log('>>>>>>接口请求失败', err);
-            })
+            }
+
         },
         //请求患者信息
         getPainentDetial: (context, parms) => {

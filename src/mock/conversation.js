@@ -1,6 +1,7 @@
 import Mock from 'mockjs';
 let Random = Mock.Random
-const HxId = ['111', '222', '333', '444', '555', '666']
+// const HxId = ['huanzhe_01', 'huanzhe_02', 'huanzhe_03', 'huanzhe_04', 'huanzhe_05']
+const HxId = ['pfh', 'pfh2', 'pfh3', 'pfh4', 'pfh5']
 let convasationsList = [];
 const count = 15
 

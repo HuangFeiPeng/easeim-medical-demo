@@ -6,9 +6,12 @@ import WebIM from './utils/WebIM'
 // console.log(new WebIM);
 // 引入Vconsole
 import Vconsole from 'vconsole'
-new Vconsole();
+// new Vconsole();
 import './utils/rem.js' //rem布局进行的配置
-import './mock/index';
+
+// import './mock/index';
+require('./mock/index');
+
 //Vant UI的按需引入
 import {
   Col,
@@ -53,7 +56,7 @@ Vue.prototype.$WebIM = WebIM
 Vue.prototype.$conn = WebIM.conn
 Vue.config.productionTip = false
 
-new Vue({
+window.Vue = new Vue({
   router,
   store,
   render: h => h(App)

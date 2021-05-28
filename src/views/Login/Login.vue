@@ -27,7 +27,7 @@
               placeholder="密码"
             />
             <div
-              @click.stop=";(isShowPwd = !isShowPwd), (type = !type)"
+              @click.stop="(isShowPwd = !isShowPwd), (type = !type)"
               class="show_eyes"
             >
               <img :src="isShowPwd ? pwdImg.showPwd : pwdImg.hidePwd" />
@@ -70,7 +70,7 @@
               placeholder="密码"
             />
             <div
-              @click.stop=";(isShowPwd = !isShowPwd), (type = !type)"
+              @click.stop="(isShowPwd = !isShowPwd), (type = !type)"
               class="show_eyes"
             >
               <img :src="isShowPwd ? pwdImg.showPwd : pwdImg.hidePwd" />
@@ -86,7 +86,7 @@
               placeholder="密码"
             />
             <div
-              @click.stop=";(isShowPwd = !isShowPwd), (type = !type)"
+              @click.stop="(isShowPwd = !isShowPwd), (type = !type)"
               class="show_eyes"
             >
               <img :src="isShowPwd ? pwdImg.showPwd : pwdImg.hidePwd" />
@@ -116,7 +116,7 @@
       </div>
       <div
         class="toggle_state"
-        @click=";(isLogin = !isLogin), (agree_protocol = false)"
+        @click="(isLogin = !isLogin), (agree_protocol = false)"
         v-text="isLogin ? '注册账号' : '返回登陆'"
       >
         注册账号
@@ -128,104 +128,104 @@
   </div>
 </template>
 <script>
-import './Login.scss'
+import "./Login.scss";
 export default {
-  name: 'Login',
+  name: "Login",
   data() {
     return {
       isLogin: true, //0 登陆 1 注册
-      username: 'hfp',
-      password: '1',
-      confirmPwd: '',
+      username: "hfp",
+      password: "1",
+      confirmPwd: "",
       isShowPwd: false,
       agree_protocol: false,
       pwdImg: {
-        showPwd: require('../../assets/imgs/icon／展示密码备份 2@2x.png'),
-        hidePwd: require('../../assets/imgs/icon／不展示密码@2x.png'),
+        showPwd: require("../../assets/imgs/icon／展示密码备份 2@2x.png"),
+        hidePwd: require("../../assets/imgs/icon／不展示密码@2x.png")
       },
-      type: true,
-    }
+      type: true
+    };
   },
   methods: {
     toLogin() {
-      let that = this
+      let that = this;
       if (!this.username && !this.password) {
-        this.$Toast('什么都没写！')
+        this.$Toast("什么都没写！");
       } else if (!this.username) {
-        this.$Toast('用户ID为空！')
+        this.$Toast("用户ID为空！");
       } else if (!this.password) {
-        this.$Toast('密码为空！')
+        this.$Toast("密码为空！");
       } else if (this.$store.state.loginState) {
-        this.$Toast('已为登陆状态')
-        this.$router.push('/home')
+        this.$Toast("已为登陆状态");
+        this.$router.push("/home");
       } else {
-        console.log('登陆中')
         this.$Toast.loading({
-          message: '加载中...',
-          forbidClick: true,
-        })
+          message: "加载中...",
+          duration: 0,
+          forbidClick: true
+        });
         let options = {
           user: this.username,
           pwd: this.password,
           appKey: this.$WebIM.config.appkey,
           success() {
-            that.$Toast.clear()
-            that.username = ''
-            that.password = ''
-          },
-        }
-        this.$conn.open(options)
+            that.$Toast.clear();
+            that.username = "";
+            that.password = "";
+          }
+        };
+        this.$conn.open(options);
       }
     },
     toRegister() {
-      let that = this
+      let that = this;
       if (!this.username && !this.password && !this.confirmPwd) {
-        this.$Toast('什么都没写！')
+        this.$Toast("什么都没写！");
       } else if (!this.username) {
-        this.$Toast('用户ID为空！')
+        this.$Toast("用户ID为空！");
       } else if (!this.password) {
-        this.$Toast('密码为空！')
+        this.$Toast("密码为空！");
       } else if (!this.confirmPwd) {
-        this.$Toast('首次输入密码为空！')
+        this.$Toast("首次输入密码为空！");
       } else if (!this.confirmPwd) {
-        this.$Toast('确认密码为空！')
+        this.$Toast("确认密码为空！");
       } else if (this.password !== this.confirmPwd) {
-        this.$Toast('两次密码不一致！')
+        this.$Toast("两次密码不一致！");
       } else if (!this.agree_protocol) {
-        this.$Toast('请勾选用户协议')
+        this.$Toast("请勾选用户协议");
       } else {
         // console.log('注册中')
         let options = {
           username: this.username,
           password: this.password,
-          nickname: 'nickname', //暂时不用
+          nickname: "nickname", //暂时不用
           appKey: this.$WebIM.config.appkey,
           success: function() {
-            that.$Toast.success('注册成功！')
+            that.$Toast.success("注册成功！");
           },
           error: function(e) {
             if (
-              JSON.parse(e.data).error == 'duplicate_unique_property_exists'
+              JSON.parse(e.data).error == "duplicate_unique_property_exists"
             ) {
-              that.$Toast.fail(`用户名已存在`)
-            } else if (JSON.parse(e.data).error == 'illegal_argument') {
+              that.$Toast.fail(`用户名已存在`);
+            } else if (JSON.parse(e.data).error == "illegal_argument") {
               if (
-                JSON.parse(e.data).error_description === 'USERNAME_TOO_LONG'
+                JSON.parse(e.data).error_description === "USERNAME_TOO_LONG"
               ) {
-                that.$Toast.fail('注册ID超过64个字节！')
+                that.$Toast.fail("注册ID超过64个字节！");
               }
-              that.$Toast.fail('注册ID不合法')
-            } else if (JSON.parse(e.data).error == 'unauthorized') {
-              that.$Toast.fail('未开放注册模式！')
-            } else if (JSON.parse(e.data).error == 'resource_limited') {
-              that.$Toast.fail('该Appkey用户注册数量已达上限,请升级至企业版！')
+              that.$Toast.fail("注册ID不合法");
+            } else if (JSON.parse(e.data).error == "unauthorized") {
+              that.$Toast.fail("未开放注册模式！");
+            } else if (JSON.parse(e.data).error == "resource_limited") {
+              that.$Toast.fail("该Appkey用户注册数量已达上限,请升级至企业版！");
             }
-          },
-        }
-        this.$conn.registerUser(options)
+          }
+        };
+        this.$conn.registerUser(options);
       }
-    },
-  },
-}
+    }
+  }
+};
 </script>
 <style lang="scss" scoped></style>

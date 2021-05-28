@@ -3,11 +3,10 @@
     <div class="input_func">
       <input
         class="input"
-        rows="1"
         cursor-spacing="65"
         confirm-type="done"
         ref="input"
-        v-model="inputValue"
+        v-model.trim="inputValue"
         maxlength="100"
       />
       <!-- 功能按钮 -->
@@ -44,23 +43,29 @@
         <img
           v-show="inputValue !== ''"
           class="sendBtn"
+          @click="sendMessage"
           src="@/assets/imgs/about_input/发送.png"
           alt=""
         />
       </div>
     </div>
-    <div class="inout_entend">
+    <div class="input_entend">
       <Emoji v-if="isShowEmoji" @addEmojiToInput="addEmoji" />
       <MoreFunc v-show="isShowPlusBox">
         <Audio />
-        <Img />
-        <File />
+        <Img @sendImg="sendImageMessage" />
+        <File @sendFile="sendFileMessage" />
       </MoreFunc>
-      <CollectAudio v-show="isShowCollectBox" />
+      <CollectAudio
+        @sendAudioData="sendAudioMessage"
+        v-show="isShowCollectBox"
+      />
     </div>
   </div>
 </template>
 <script>
+import { mapActions } from "vuex";
+import errCode from "@/utils/errorSatus";
 import Emoji from "./suit/emoji";
 import MoreFunc from "./suit/moreFunc";
 import Audio from "./suit/about_audio/audio";
@@ -69,18 +74,82 @@ import Img from "./suit/image";
 import File from "./suit/file";
 
 export default {
+  props: {
+    hx_id: {
+      type: String,
+      required: true //该参数为必填项
+    }
+  },
   data() {
     return {
       count: 0,
       inputValue: "",
-      // inputType: false, //控制input的类型
-      isShowEmoji: false,
-      isShowPlusBox: false,
+      isShowEmoji: false, //表情框显隐
+      isShowPlusBox: false, //扩展功能显隐
       isShowCollectBox: false //控制显示录音采集框
     };
   },
-  mounted() {},
+  mounted() {
+    console.log(">>>>>>输入框部分");
+  },
   methods: {
+    ...mapActions([
+      "onSendTextMessage",
+      "onSendAudioMessage",
+      "onSendImageMessage",
+      "onSendFileMessage"
+    ]),
+    //文本消息
+    async sendMessage() {
+      try {
+        const msgData = this.inputValue;
+        const hxId = this.hx_id;
+        if (this.inputValue === "") return this.$Toast.warn("不可发送空内容");
+        await this.onSendTextMessage({ msgData, hxId });
+        this.inputValue = "";
+      } catch (error) {
+        errCode(error);
+      }
+    },
+    //语音消息
+    async sendAudioMessage(recordData) {
+      try {
+        recordData.hxId = this.hx_id;
+        let file = {
+          url: this.$WebIM.utils.parseDownloadResponse(recordData.src),
+          filename: "录音",
+          filetype: ".amr",
+          data: recordData.src
+        };
+        recordData.file = file;
+        await this.onSendAudioMessage(recordData);
+        this.$Toast.success("发送成功！");
+      } catch (error) {
+        errCode(error);
+      }
+    },
+    //图片消息
+    async sendImageMessage(el) {
+      console.log(">>>>>图片的el", el);
+      try {
+        let hxId = this.hx_id;
+        await this.onSendImageMessage({ el, hxId });
+        this.$Toast.success("发送成功！");
+      } catch (error) {
+        errCode(error);
+      }
+    },
+    //文件消息
+    async sendFileMessage(el) {
+      console.log(el);
+      try {
+        let hxId = this.hx_id;
+        await this.onSendFileMessage({ hxId, el });
+        this.$Toast.success("文件发送成功！");
+      } catch (error) {
+        errCode(error);
+      }
+    },
     addEmoji(data) {
       this.inputValue += data;
     },
@@ -158,7 +227,7 @@ export default {
       margin-right: 0.09rem;
     }
   }
-  .inout_entend {
+  .input_entend {
     user-select: none;
     position: relative;
   }

@@ -1,7 +1,12 @@
 <template>
   <div>
-    <div class="image_box" @click="sendImg">
-      <input type="file" ref="updataImage" style="display:none;" />
+    <div class="image_box" @click="upDataImg">
+      <input
+        type="file"
+        @change="sendImg"
+        ref="updataImage"
+        style="display:none;"
+      />
       <img src="@/assets/imgs/about_input/相册@2x.png" alt="" />
     </div>
   </div>
@@ -14,8 +19,13 @@ export default {
     };
   },
   methods: {
-    async sendImg() {
+    upDataImg() {
       this.$refs["updataImage"].click();
+    },
+    sendImg() {
+      let el = this.$refs["updataImage"];
+      this.$emit("sendImg", el);
+      el.value = null;
     }
   }
 };
