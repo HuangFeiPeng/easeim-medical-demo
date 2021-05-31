@@ -5,8 +5,9 @@ export let setMsgLayout = (message) => {
     const nowPanient = window.Vue.$route; //拿到当前选中的患者信息。 
     console.log(window.Vue.$route); // 
     let isSelft = message.from && (message.from === conn.user ? true : false) //处理消息当前的来源
-    console.log('>+++++++++', );
-    let isUnReadNum = (nowPanient.path === "/disposeClinical/chat_content" && nowPanient.query.HxId === message.from) ? false : true
+    console.log('>>>>>消息来源true是自己，false不是', isSelft);
+    let isUnReadNum = !(nowPanient.path === "/disposeClinical/chat_content" && (nowPanient.query.HxId === message.from || message.from === conn.user))
+    // let isUnReadNum = (nowPanient.path === "/disposeClinical/chat_content" && nowPanient.query.HxId === message.from && isSelft !== true) ? false : true;
     console.log('>>>>>isUnReadNum', isUnReadNum);
     // let isUnReadNum = (nowPanient && nowPanient.HxId === message.from) ? false : true; //处理过来的消息是否为未读（如果当前选中的患者环信ID与from的ID一致那么不是未读，否则则是未读）
     isUnReadNum && window.Vue.$store.commit('addAllReadNumCount', 1);
