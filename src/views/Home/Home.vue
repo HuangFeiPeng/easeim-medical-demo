@@ -14,7 +14,17 @@
       inactive-color="#494b5c"
       route
     >
-      <van-tabbar-item replace to="/home/conversation" badge="1" icon="wap-home"
+      <van-tabbar-item
+        replace
+        to="/home/conversation"
+        icon="wap-home"
+        :badge="
+          allUnReadNumCont && allUnReadNumCont > 0
+            ? allUnReadNumCont > 99
+              ? '99+'
+              : allUnReadNumCont
+            : ''
+        "
         >首页</van-tabbar-item
       >
       <van-tabbar-item replace to="/home/attestation" icon="manager"
@@ -27,19 +37,26 @@
   </div>
 </template>
 <script>
-import './Home.scss'
+import "./Home.scss";
+import { mapState } from "vuex";
 export default {
-  name: 'Home',
+  name: "Home",
   data() {
     return {
-      title: '',
+      title: "",
       active: 0,
       icon: {
-        active: 'https://img01.yzcdn.cn/vant/user-active.png',
-        inactive: 'https://img01.yzcdn.cn/vant/user-inactive.png',
-      },
-    }
+        active: "https://img01.yzcdn.cn/vant/user-active.png",
+        inactive: "https://img01.yzcdn.cn/vant/user-inactive.png"
+      }
+    };
   },
-  methods: {},
-}
+  computed: {
+    // allUnReadNumCont
+    ...mapState({
+      allUnReadNumCont: state => state.allReadNumConut
+    })
+  },
+  methods: {}
+};
 </script>

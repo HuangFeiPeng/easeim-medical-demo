@@ -3,7 +3,6 @@
     <!-- 空状态样式组件 -->
     <van-empty description="暂无问诊消息" v-if="isEmptyState" />
     <!-- 有会话数据显示部分 -->
-    <!-- <ConverList></ConverList> -->
     <div class="conversation_content_box" v-if="!isEmptyState">
       <div
         v-for="(item, idx) in Conversation"
@@ -37,14 +36,26 @@
 
             <p class="lastMsg">{{ item.lastMsg }}</p>
           </div>
-          <div class="conver_type">
-            <span class="time">下午10:13</span>
-            <span
-              class="diagnoseState"
-              :style="diagnoseTypeColor[item.diagnoseState]"
-              >{{ item.diagnoseState | filterDiagnoseType }}</span
-            >
-          </div>
+          <!-- <van-badge
+            :dot="item.diagnoseState === 0 || item.diagnoseState === 1"
+            :badge="onUnReadNum[item.HxId] && onUnReadNum[item.HxId].num"
+          > -->
+          <van-badge
+            :content="
+              item.diagnoseState === 0 || item.diagnoseState === 1
+                ? onUnReadNum[item.HxId] && onUnReadNum[item.HxId].num
+                : ''
+            "
+          >
+            <div class="conver_type">
+              <span class="time">下午10:13</span>
+              <span
+                class="diagnoseState"
+                :style="diagnoseTypeColor[item.diagnoseState]"
+                >{{ item.diagnoseState | filterDiagnoseType }}</span
+              >
+            </div>
+          </van-badge>
         </div>
       </div>
     </div>
@@ -52,49 +63,63 @@
   </div>
 </template>
 <script>
-import './conversation.scss'
-import { mapState, mapActions } from 'vuex'
+import "./conversation.scss";
+import { mapState, mapActions, mapGetters } from "vuex";
 export default {
-  name: 'Conversation',
+  name: "Conversation",
   data() {
     return {
-      title: '我的问诊',
+      title: "我的问诊",
+      isShowDot: true,
+      onUnReadNum: this.$store.state.Message.unReadNum,
       diagnoseTypeColor: {
-        0: 'color:#F7B500',
-        1: 'color:#0AC195',
-        2: 'color:#9FA4AE',
-        3: 'color:#9FA4AE',
-      },
-    }
+        0: "color:#F7B500",
+        1: "color:#0AC195",
+        2: "color:#9FA4AE",
+        3: "color:#DC143C"
+      }
+    };
   },
+  mounted() {},
   computed: {
     Conversation() {
-      return this.$store.state.Conversation.conversationList
+      return this.$store.state.Conversation.conversationList;
     },
     isEmptyState() {
-      return this.$store.state.Conversation.isEmpty
+      return this.$store.state.Conversation.isEmpty;
     },
+    msgList() {
+      return this.$store.state.Message.msgList;
+    },
+    a() {
+      return this.$store.state.Message.unReadNum;
+    }
+  },
+  watch: {
+    "$store.state.Message.unReadNum"() {
+      this.onUnReadNum = this.$store.state.Message.unReadNum;
+    }
   },
   filters: {
     filterDiagnoseType(val) {
       let type = {
-        0: '待接诊',
-        1: '进行中',
-        2: '问诊结束',
-        3: '已退诊',
-      }
-      return type[val]
-    },
+        0: "待接诊",
+        1: "进行中",
+        2: "问诊结束",
+        3: "已退诊"
+      };
+      return type[val];
+    }
   },
   methods: {
-    ...mapActions(['getPainentDetial']),
+    ...mapActions(["getPainentDetial"]),
     //前往病人详情页
     async disposeClinical(data) {
-      const { HxId, diagnoseState, name } = data
-      await this.getPainentDetial({ HxId, diagnoseState, name })
-      await this.$router.push('/disposeClinical')
-    },
-  },
-}
+      const { HxId, diagnoseState, name } = data;
+      await this.getPainentDetial({ HxId, diagnoseState, name });
+      await this.$router.push("/disposeClinical");
+    }
+  }
+};
 </script>
 <style lang="scss" scoped></style>

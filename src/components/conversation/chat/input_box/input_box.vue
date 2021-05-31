@@ -106,6 +106,7 @@ export default {
         const hxId = this.hx_id;
         if (this.inputValue === "") return this.$Toast.warn("不可发送空内容");
         await this.onSendTextMessage({ msgData, hxId });
+        this.$emit("updataMsg");
         this.inputValue = "";
       } catch (error) {
         errCode(error);

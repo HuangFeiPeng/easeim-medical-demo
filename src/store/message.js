@@ -5,23 +5,53 @@ import {
 let conn = WebIM.conn;
 const message = {
     state: {
-        msgList: {}
+        msgList: {},
+        // msgList: [],
+        unReadNum: {},
+        nowContactMsg: []
     },
     mutations: {
-        updataMessageList: ({
-            msgList
-        }, param) => {
+        //处理添加新消息
+        updataMessageList: (
+            state, param) => {
             const {
                 to,
                 from
             } = param;
-            console.log('>>>>>>', param);
             const key = (conn.user === to ? from : to);
-            console.log(key);
-            if (!msgList[key]) {
-                msgList[key] = []
+            if (!state.msgList[key]) {
+                state.msgList[key] = []
             }
-            msgList[key].push(param)
+            state.msgList[key].push(param)
+            const oldMsg = {
+                ...state.msgList
+            }
+            state.msgList = oldMsg;
+        },
+
+        //处理统计各用户的未读数
+        updataUnReadMsgCount: (state, payload) => {
+            console.log('<<<<', payload);
+            const {
+                id,
+                isDelete
+            } = payload;
+            if (!state.unReadNum[id]) {
+                state.unReadNum[id] = {
+                    num: 0
+                }
+            }
+            if (isDelete) {
+                delete state.unReadNum[id];
+            } else {
+                state.unReadNum[id].num += 1
+            }
+
+            //这一步是因为Vue监听无法监听到对象中下面的具体值的变化，但是对象的改变可以监听到。
+            const oldUnReadNum = {
+                ...state.unReadNum
+            }
+            state.unReadNum = oldUnReadNum
         }
     },
     actions: {
@@ -236,6 +266,9 @@ const message = {
             })
 
         }
+
+    },
+    getters: {
 
     }
 }

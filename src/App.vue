@@ -34,7 +34,6 @@ export default {
         console.log("text", message);
         message.type = changeType(message);
         let msgData = setMsgLayout(message);
-        console.log(msgData);
         vm.$store.commit("updataMessageList", msgData);
       }, //收到文本消息
       onPictureMessage: function(message) {

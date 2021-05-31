@@ -63,19 +63,19 @@
   </div>
 </template>
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations } from "vuex";
 export default {
   data() {
     return {
       exit_reason: {
         consult: true,
         not_data: true,
-        complex: true,
-      },
-    }
+        complex: true
+      }
+    };
   },
   methods: {
-    ...mapMutations(['changeDiagnoseState']),
+    ...mapMutations(["changeDiagnoseState"]),
     async submit_data() {
       if (
         this.exit_reason.consult &&
@@ -83,23 +83,23 @@ export default {
         this.exit_reason.complex
       ) {
         this.$Toast({
-          message: '请选择原因',
-          icon: 'warning',
-        })
+          message: "请选择原因",
+          icon: "warning"
+        });
       } else {
-        let name = this.$route.query.name
-        await this.changeDiagnoseState({ name: name, stateNum: 3 })
+        let name = this.$route.query.name;
+        await this.changeDiagnoseState({ name: name, stateNum: 3 });
         this.$Toast({
-          message: '提交成功',
-          icon: 'warning',
-        })
+          message: "提交成功",
+          icon: "warning"
+        });
         setTimeout(() => {
-          this.$router.go(-1)
-        }, 800)
+          this.$router.push("/home");
+        }, 800);
       }
-    },
-  },
-}
+    }
+  }
+};
 </script>
 <style lang="scss" scoped>
 .refuseReception {

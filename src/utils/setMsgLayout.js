@@ -1,10 +1,18 @@
 /* 处理消息组装发送以及接收的消息 */
-import message from '../store/message';
 import WebIM from './WebIM'
 let conn = WebIM.conn;
 export let setMsgLayout = (message) => {
-    console.log('>>>>>>message', message);
-    let isSelft = message.from && (message.from === conn.user ? true : false)
+    const nowPanient = window.Vue.$route; //拿到当前选中的患者信息。 
+    console.log(window.Vue.$route); // 
+    let isSelft = message.from && (message.from === conn.user ? true : false) //处理消息当前的来源
+    console.log('>+++++++++', );
+    let isUnReadNum = (nowPanient.path === "/disposeClinical/chat_content" && nowPanient.query.HxId === message.from) ? false : true
+    console.log('>>>>>isUnReadNum', isUnReadNum);
+    // let isUnReadNum = (nowPanient && nowPanient.HxId === message.from) ? false : true; //处理过来的消息是否为未读（如果当前选中的患者环信ID与from的ID一致那么不是未读，否则则是未读）
+    isUnReadNum && window.Vue.$store.commit('addAllReadNumCount', 1);
+    isUnReadNum && window.Vue.$store.commit('updataUnReadMsgCount', {
+        id: message.from,
+    });
     let getTime = String(new Date().getTime());
     const {
         type
@@ -19,6 +27,7 @@ export let setMsgLayout = (message) => {
             chatType: message.contentsType ? message.contentsType : "TEXT",
             time: message.time ? message.time : getTime,
             self: isSelft,
+            unReadNum: isUnReadNum,
             mid: message.mid ? message.mid : message.id
         }
     }

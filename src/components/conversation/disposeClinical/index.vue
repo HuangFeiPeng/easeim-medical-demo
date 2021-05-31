@@ -140,13 +140,21 @@ export default {
       }
     };
   },
+  beforeDestroy() {
+    this.$store.commit("initNowPanientDetil");
+  },
   computed: {
     ...mapState({
-      patientInfo: state => state.Conversation.nowPanientDetil
+      patientInfo: state => state.Conversation.nowPanientDetil,
+      unReadNum: state => state.Message.unReadNum
     })
   },
   methods: {
-    ...mapMutations(["changeDiagnoseState"]),
+    ...mapMutations([
+      "changeDiagnoseState",
+      "updataUnReadMsgCount",
+      "addAllReadNumCount"
+    ]),
     //接诊
     agreeReception() {
       let name = this.patientInfo.name;
@@ -161,10 +169,21 @@ export default {
     //开始接诊
     startReception() {
       let HxId = this.patientInfo.HxId;
+      this.removeUnReadNum(HxId);
       this.$router.push({
         path: "/disposeClinical/chat_content",
         query: { HxId }
       });
+    },
+    //处理清除未读数
+    removeUnReadNum(HxId) {
+      let pickIdReadNum = this.unReadNum[HxId] && this.unReadNum[HxId].num;
+      if (pickIdReadNum && pickIdReadNum !== undefined) {
+        this.addAllReadNumCount(-pickIdReadNum);
+        this.updataUnReadMsgCount({ id: HxId, isDelete: true });
+      } else {
+        return;
+      }
     }
   }
 };

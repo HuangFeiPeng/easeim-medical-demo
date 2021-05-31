@@ -41,6 +41,10 @@ const conversation = {
                 state.nowPanientDetil.diagnoseState = stateNum
             }
             state.conversationList[index].diagnoseState = stateNum
+        },
+        //赋空当前患者信息
+        initNowPanientDetil: (state) => {
+            state.nowPanientDetil = {}
         }
     },
     actions: {

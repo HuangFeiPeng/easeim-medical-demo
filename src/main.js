@@ -8,7 +8,6 @@ import WebIM from './utils/WebIM'
 import Vconsole from 'vconsole'
 // new Vconsole();
 import './utils/rem.js' //rem布局进行的配置
-
 // import './mock/index';
 require('./mock/index');
 
@@ -32,7 +31,8 @@ import {
   NoticeBar,
   Sticky,
   PullRefresh,
-  Popup
+  Popup,
+  Badge
 } from 'vant';
 Vue.use(Button)
 Vue.use(Cell)
@@ -50,7 +50,7 @@ Vue.use(NoticeBar)
 Vue.use(Sticky)
 Vue.use(Col)
 Vue.use(Row)
-Vue.use(PullRefresh).use(Popup)
+Vue.use(PullRefresh).use(Popup).use(Badge)
 Vue.prototype.$Toast = Toast
 Vue.prototype.$WebIM = WebIM
 Vue.prototype.$conn = WebIM.conn

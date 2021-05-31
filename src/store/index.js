@@ -7,6 +7,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    allReadNumConut: 0,
     loginState: false,
   },
   mutations: {
@@ -21,6 +22,9 @@ export default new Vuex.Store({
       } else {
         state.loginState = false
       }
+    },
+    addAllReadNumCount: (state, num) => {
+      state.allReadNumConut += num;
     }
   },
   actions: {},
