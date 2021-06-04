@@ -9,7 +9,7 @@ import Vconsole from 'vconsole'
 // new Vconsole();
 import './utils/rem.js' //rem布局进行的配置
 // import './mock/index';
-require('./mock/index');
+// require('./mock/index');
 
 //Vant UI的按需引入
 import {
@@ -32,8 +32,13 @@ import {
   Sticky,
   PullRefresh,
   Popup,
-  Badge
+  Badge,
+  Loading
 } from 'vant';
+import {
+  Image as VanImage
+} from 'vant';
+Vue.use(VanImage)
 Vue.use(Button)
 Vue.use(Cell)
 Vue.use(Form)
@@ -50,7 +55,7 @@ Vue.use(NoticeBar)
 Vue.use(Sticky)
 Vue.use(Col)
 Vue.use(Row)
-Vue.use(PullRefresh).use(Popup).use(Badge)
+Vue.use(PullRefresh).use(Popup).use(Badge).use(Loading)
 Vue.prototype.$Toast = Toast
 Vue.prototype.$WebIM = WebIM
 Vue.prototype.$conn = WebIM.conn

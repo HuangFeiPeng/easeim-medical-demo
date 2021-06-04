@@ -1,0 +1,20 @@
+export const fileType = {
+    zip: require("@/assets/imgs/about_input/fileType/zip.png"),
+    doc: require("@/assets/imgs/about_input/fileType/DOC.png"),
+    docx: require("@/assets/imgs/about_input/fileType/DOC.png"),
+    jpeg: require("@/assets/imgs/about_input/fileType/img.png"),
+    jpg: require("@/assets/imgs/about_input/fileType/img.png"),
+    png: require("@/assets/imgs/about_input/fileType/PNG.png"),
+    gif: require("@/assets/imgs/about_input/fileType/GIF.png"),
+    pdf: require("@/assets/imgs/about_input/fileType/pdf.png"),
+    ppt: require("@/assets/imgs/about_input/fileType/pdf.png"),
+    pptx: require("@/assets/imgs/about_input/fileType/ppt.png"),
+    js: require("@/assets/imgs/about_input/fileType/js.png"),
+    rar: require("@/assets/imgs/about_input/fileType/rar.png"),
+    mp3: require("@/assets/imgs/about_input/fileType/Mp3.png"),
+    mp4: require("@/assets/imgs/about_input/fileType/MP4.png"),
+    txt: require("@/assets/imgs/about_input/fileType/Txt.png"),
+    wav: require("@/assets/imgs/about_input/fileType/wav.png"),
+    json: require("@/assets/imgs/about_input/fileType/json.png"),
+
+}

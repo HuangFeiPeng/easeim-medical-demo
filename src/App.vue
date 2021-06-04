@@ -46,7 +46,31 @@ export default {
         console.log("cmd", message);
       }, //收到命令消息
       onAudioMessage: function(message) {
-        console.log("audio", message);
+        console.log(">>>>>收到音频消息", message.url);
+        if (message.url) {
+          var options = {
+            url: message.url,
+            headers: {
+              Accept: "audio/amr"
+            }
+          };
+          options.onFileDownloadComplete = function(response) {
+            //音频下载成功，需要将response转换成blob，使用objectURL作为audio标签的src即可播放。
+            var objectURL = vm.$WebIM.utils.parseDownloadResponse.call(
+              vm.$conn,
+              response
+            );
+            console.log("转译之后", objectURL);
+          };
+
+          options.onFileDownloadError = function() {
+            //音频下载失败
+            console.log("失败");
+          };
+          //通知服务器将音频转为mp3
+          vm.$WebIM.utils.download.call(vm.$conn, options);
+          console.log(options);
+        }
         message.type = changeType(message);
         let msgData = setMsgLayout(message);
         vm.$store.commit("updataMessageList", msgData);

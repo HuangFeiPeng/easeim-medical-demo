@@ -21,7 +21,7 @@ for (let i = 0; i < count; i++) {
     }))
 
 }
-
+console.log('>>>>>>>>>convasationsList', JSON.stringify(convasationsList));
 export default {
     getConvsersation: () => {
         return convasationsList

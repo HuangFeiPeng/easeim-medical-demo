@@ -13,5 +13,143 @@
         left: 0;
         right: 0;
         height: calc(100vh - 1.2rem);
+
+        .msglist_content {
+            padding: 0 .2rem;
+
+            .msglist_content_item {
+                display: flex;
+                width: 100%;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                margin: .2rem 0;
+
+                .time {
+                    display: inline-block;
+                    max-width: .89rem;
+                    height: .2rem;
+                    font-size: .12rem;
+                    font-weight: 400;
+                    color: #ADADAD;
+                    line-height: .20rem;
+                }
+
+                .msg_body {
+                    width: 100%;
+
+                    display: flex;
+
+                    .avatar {
+                        width: .42rem;
+                        height: .42rem;
+                        border-radius: 50%;
+                    }
+
+                    .content {
+                        margin: 0 .1rem;
+
+                        .text {
+                            min-width: .88rem;
+                            font-size: .17rem;
+                            font-weight: 500;
+                            color: #535568;
+                            line-height: .2rem;
+                            padding: .09rem;
+                            letter-spacing: .04rem;
+                            text-align: left;
+
+                        }
+
+                        .van-image {
+                            img {
+                                border-radius: .03rem;
+                            }
+                        }
+
+
+                        .file {
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: space-around;
+                            align-items: center;
+                            min-width: 1.5rem;
+                            height: .5rem;
+                            padding: 0 .1rem;
+
+                            .file_img {
+                                width: .35rem;
+                                height: .35rem;
+                            }
+
+                            .file_content {
+                                display: flex;
+                                height: 100%;
+                                flex-direction: column;
+                                align-items: center;
+                                justify-content: space-around;
+                                font-size: .12rem;
+                                font-weight: 400;
+                            }
+                        }
+
+                        .audio {
+                            position: relative;
+                            display: flex;
+                            align-items: center;
+                            flex-direction: row;
+                            min-width: .5rem;
+                            max-height: .42rem;
+                            height: 100%;
+                            font-size: .12rem;
+                            padding: 0 .1rem;
+
+                            .dot {
+                                position: absolute;
+                                right: -.1rem;
+                                top: 0;
+                                display: inline-block;
+                                width: .07rem;
+                                height: .07rem;
+                                background: red;
+                                border-radius: 50%;
+                            }
+                        }
+                    }
+                }
+
+                .content_right {
+                    flex-direction: row-reverse;
+
+                    .content {
+                        background: #D3EBEA;
+                        border-radius: 8px 0px 8px 8px;
+
+                        // opacity: 0.15;
+                        .audio {
+
+                            justify-content: flex-start;
+                        }
+                    }
+                }
+
+                .content_left {
+                    flex-direction: row;
+
+
+                    .content {
+                        background: #FFFFFF;
+                        border-radius: 8px 8px 8px 0px;
+
+                        .audio {
+
+                            justify-content: flex-end;
+                        }
+                    }
+
+                }
+            }
+        }
+
     }
 }

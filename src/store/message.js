@@ -224,7 +224,18 @@ const message = {
                     'zip': true,
                     'txt': true,
                     'doc': true,
-                    'pdf': true
+                    'pdf': true,
+                    'pptx': true,
+                    'ppt': true,
+                    'docx': true,
+                    'excel': true,
+                    'js': true,
+                    'json': true,
+                    'wav': true,
+                    'rar': true,
+                    'jpeg': true,
+                    'mp3': true,
+                    'mp4': true,
                 };
                 if (file.filetype.toLowerCase() in allowType) {
                     let option = {
