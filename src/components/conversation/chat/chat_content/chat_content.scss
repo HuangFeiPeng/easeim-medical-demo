@@ -67,7 +67,6 @@
                             }
                         }
 
-
                         .file {
                             display: flex;
                             flex-direction: row;
@@ -115,9 +114,12 @@
                                 border-radius: 50%;
                             }
                         }
+
+
                     }
                 }
 
+                /* 自己消息样式 */
                 .content_right {
                     flex-direction: row-reverse;
 
@@ -126,13 +128,45 @@
                         border-radius: 8px 0px 8px 8px;
 
                         // opacity: 0.15;
-                        .audio {
-
+                        .my_audio {
                             justify-content: flex-start;
+
+                            @keyframes my_play_icon {
+                                0% {
+                                    background: url('../../../../assets/imgs/playAudio/msg_send_audio02@3x.png') no-repeat;
+
+                                    background-size: 100% 100%;
+                                }
+
+                                50% {
+                                    background: url('../../../../assets/imgs/playAudio/msg_send_audio01@2x.png') no-repeat;
+
+                                    background-size: 100% 100%;
+                                }
+
+                                100% {
+                                    background: url('../../../../assets/imgs/playAudio/msg_send_audio@2x.png') no-repeat;
+                                    background-size: 100% 100%;
+                                }
+                            }
+
+                            .play_animation {
+                                width: .38rem;
+                                height: .38rem;
+                                background: url('../../../../assets/imgs/playAudio/msg_send_audio@2x.png') no-repeat;
+                                background-size: 100% 100%;
+
+                            }
+
+                            .start_animation {
+                                animation: my_play_icon 2s;
+                                animation-iteration-count: infinite;
+                            }
                         }
                     }
                 }
 
+                /* 他人消息样式 */
                 .content_left {
                     flex-direction: row;
 
@@ -141,9 +175,41 @@
                         background: #FFFFFF;
                         border-radius: 8px 8px 8px 0px;
 
-                        .audio {
+                        .your_audio {
 
                             justify-content: flex-end;
+
+                            @keyframes your_play_icon {
+                                0% {
+                                    background: url('../../../../assets/imgs/playAudio/msg_recv_audio02@2x.png') no-repeat;
+
+                                    background-size: 100% 100%;
+                                }
+
+                                50% {
+                                    background: url('../../../../assets/imgs/playAudio/msg_recv_audio01@2x.png') no-repeat;
+
+                                    background-size: 100% 100%;
+                                }
+
+                                100% {
+                                    background: url('../../../../assets/imgs/playAudio/msg_recv_audio@2x.png') no-repeat;
+                                    background-size: 100% 100%;
+                                }
+                            }
+
+                            .play_animation {
+                                width: .38rem;
+                                height: .38rem;
+                                background: url('../../../../assets/imgs/playAudio/msg_recv_audio@2x.png') no-repeat;
+                                background-size: 100% 100%;
+
+                            }
+
+                            .start_animation {
+                                animation: your_play_icon 2s;
+                                animation-iteration-count: infinite;
+                            }
                         }
                     }
 

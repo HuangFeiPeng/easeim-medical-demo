@@ -9,16 +9,16 @@
 export default {
   data() {
     return {
-      isShow: false,
-    }
+      isShow: false
+    };
   },
   methods: {
     //显示录音采集框
     showCollectBox() {
-      this.$parent.$parent.showCollectBox() //调用input里面的展示录音框的
-    },
-  },
-}
+      this.$parent.$parent.showCollectBox(); //调用input里面的展示录音框的
+    }
+  }
+};
 </script>
 <style lang="scss" scoped>
 .audio_box {
@@ -29,6 +29,9 @@ export default {
   justify-content: center;
   align-items: center;
   border-radius: 0.05rem;
+  img {
+    height: 0.28rem;
+  }
 }
 .send_audio_box {
   position: absolute;

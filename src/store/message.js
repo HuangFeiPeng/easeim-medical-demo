@@ -1,4 +1,5 @@
 import WebIM from '@/utils/WebIM';
+import _ from 'lodash';
 import {
     setMsgLayout
 } from '@/utils/setMsgLayout';
@@ -6,7 +7,6 @@ let conn = WebIM.conn;
 const message = {
     state: {
         msgList: {},
-        // msgList: [],
         unReadNum: {},
         nowContactMsg: []
     },
@@ -52,6 +52,19 @@ const message = {
                 ...state.unReadNum
             }
             state.unReadNum = oldUnReadNum
+        },
+        //处理音频播放状态
+        updataAudioMsgPlayStatus: (state, payload) => {
+            console.log('>>>>>>commit', payload);
+            const {
+                from,
+                mid
+            } = payload;
+            let index = _.findIndex(state.msgList[from], function (o) {
+                return o.mid == mid;
+            });
+            state.msgList[from][index].isPlay = true;
+            console.log('>>>>>>这条消息的下标', );
         }
     },
     actions: {
@@ -161,7 +174,8 @@ const message = {
                     'jpeg': true,
                     'gif': true,
                     'png': true,
-                    'bmp': true
+                    'bmp': true,
+                    'webp': true
                 };
                 if (file.filetype.toLowerCase() in allowType) {
                     let option = {
@@ -189,7 +203,7 @@ const message = {
                             resolve()
                         },
                         fail: function (e) {
-                            console.log("Fail"); //如禁言、拉黑后发送消息会失败
+                            console.log("Fail", e); //如禁言、拉黑后发送消息会失败
                             reject(e);
                         },
                         flashUpload: WebIM.flashUpload
@@ -276,6 +290,13 @@ const message = {
                 }
             })
 
+        },
+        //提交要查找修改的音频消息播放状态
+        onSetAudioMsgPlayStatus: ({
+            commit
+        }, msgData) => {
+            // console.log('>>>>>>>', payload);
+            commit('updataAudioMsgPlayStatus', msgData)
         }
 
     },

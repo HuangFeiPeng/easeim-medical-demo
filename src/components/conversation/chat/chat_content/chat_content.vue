@@ -51,13 +51,30 @@
               </div>
               <!-- 音频消息 -->
               <div
-                class="audio"
+                :class="[
+                  'audio',
+                  { my_audio: item.self },
+                  { your_audio: !item.self }
+                ]"
                 v-if="item.chatType === 'VOICE'"
-                @click.prevent="playAudio(item.file.url)"
+                @click.prevent.stop="
+                  playAudio(item), (armSeting.isPlayIdx = index)
+                "
               >
                 <span class="dot" v-if="!item.isPlay"></span>
-                <span class="lengtn">{{ item.file.length }}</span>
-                <!-- <audio :src="item.file.url"></audio> -->
+                <div
+                  :class="[
+                    'play_animation',
+
+                    {
+                      start_animation:
+                        armSeting.isPlaying && armSeting.isPlayIdx === index
+                    }
+                  ]"
+                ></div>
+                <span class="length"
+                  ><sub>{{ `${item.file.length}''` }}</sub></span
+                >
               </div>
             </div>
           </div>
@@ -69,7 +86,7 @@
 </template>
 <script>
 import "./chat_content.scss";
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import InputBox from "../input_box/input_box";
 import BScroll from "@better-scroll/core";
 import { renderTime, renderSize } from "@/utils/renderTime";
@@ -85,6 +102,10 @@ export default {
       avatarUrl: {
         doctor: require("@/assets/imgs/占位01.jpeg"),
         patient: require("@/assets/imgs/占位02.jpeg")
+      },
+      armSeting: {
+        isPlaying: false,
+        isPlayIdx: -1
       }
     };
   },
@@ -116,6 +137,8 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["onSetAudioMsgPlayStatus"]),
+    //滚动插件
     initScroll() {
       this.$nextTick(() => {
         this.BS = new BScroll(this.$refs["scroll"], {
@@ -125,22 +148,43 @@ export default {
         this.scrollTo();
       });
     },
+    //图片加载完毕置底
     loadImgOk() {
       console.log(">>>>>图片加载完毕");
       //图片加载完毕再调用一次滚动，解决图片加载完成之后滚动不完全置底问题。
       this.initScroll();
     },
-    playAudio(src) {
+    //播放音频
+    playAudio(msg) {
+      let _that = this;
+      let src = msg.file.url;
+      let isPlay = msg.isPlay;
       let armRec = new BenzAMRRecorder();
-      armRec
-        .initWithUrl(src)
-        .then(function(res) {
+      isPlay && !isPlay && this.setAudioMsgPlayStatus(msg);
+      armRec.initWithUrl(src).then(function() {
+        if (!_that.armSeting.isPlaying) {
           armRec.play();
-          console.log(res);
-        })
-        .catch(e => {
-          console.log(e);
-        });
+        }
+        return;
+      });
+
+      armRec.onPlay(function() {
+        console.log("开始播放", _that);
+        if (!_that.armSeting.isPlaying) {
+          console.log(_that.armSeting.isPlaying);
+          _that.armSeting.isPlaying = true;
+        }
+      });
+      armRec.onStop(function() {
+        console.log(">>>>>结束播放", (_that.armSeting.isPlaying = true));
+        if (_that.armSeting.isPlaying === true) {
+          _that.armSeting.isPlaying = false;
+        }
+      });
+    },
+    //处理音频消息红点
+    setAudioMsgPlayStatus(msg) {
+      this.onSetAudioMsgPlayStatus(msg);
     },
     //滚动的方法
     scrollTo() {
@@ -148,6 +192,7 @@ export default {
         this.BS.scrollTo(0, this.BS.maxScrollY, 500);
       });
     },
+    //处理消息时间戳的显示
     handleTime(timestamp) {
       const nowMsgList = this.msgList[this.hxId];
       //拿到传入的数据时间戳所在对象的下标
@@ -166,6 +211,8 @@ export default {
         return this.renderTime(timestamp);
       }
     },
+
+    //初始化input框的各功能状态
     initAllInputStatus() {
       this.$refs["input_box"].initInputStatus();
     }
