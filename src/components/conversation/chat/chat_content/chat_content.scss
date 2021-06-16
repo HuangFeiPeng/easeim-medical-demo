@@ -15,7 +15,23 @@
         height: calc(100vh - 1.2rem);
 
         .msglist_content {
+            position: relative;
             padding: 0 .2rem;
+
+            .pulldown-wrapper {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                padding: .2rem;
+                box-sizing: border-box;
+                transform: translateY(-100%) translateZ(0);
+                text-align: center;
+                color: #999;
+                font-size: .20rem;
+
+            }
+
 
             .msglist_content_item {
                 display: flex;
@@ -50,7 +66,7 @@
                         margin: 0 .1rem;
 
                         .text {
-                            min-width: .88rem;
+                            min-width: .1rem;
                             font-size: .17rem;
                             font-weight: 500;
                             color: #535568;

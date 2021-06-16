@@ -7,6 +7,7 @@ let conn = WebIM.conn;
 const message = {
     state: {
         msgList: {},
+        pfh: [],
         unReadNum: {},
         nowContactMsg: []
     },
@@ -68,6 +69,34 @@ const message = {
         }
     },
     actions: {
+        //拉取漫游消息
+        onGetHistoryMessage({
+            commit
+        }, hxId) {
+            console.log('>>>>>>>>拉取漫游的action被调用', hxId);
+            return new Promise((resolve, reject) => {
+                let options = {
+                    queue: String(hxId), //需特别注意queue属性值为大小写字母混合，以及纯大写字母，会导致拉取漫游为空数组，因此注意将属性值装换为纯小写
+                    isGroup: false,
+                    count: 15,
+                    success: function (res) {
+                        const historyMessage = res;
+                        historyMessage && historyMessage.forEach((item, index) => {
+                            console.log('>>>>>>>循环出来的数据', item, index);
+                            let msgData = setMsgLayout(item);
+                            // console.log('>>>>>msgData', msgData);
+                            commit('updataMessageList', msgData)
+                        });
+                        resolve(res)
+                    },
+                    fail: function () {
+                        reject()
+                    }
+                }
+                WebIM.conn.fetchHistoryMessages(options)
+            })
+
+        },
         //文本消息
         onSendTextMessage: ({
             commit
@@ -298,7 +327,6 @@ const message = {
             // console.log('>>>>>>>', payload);
             commit('updataAudioMsgPlayStatus', msgData)
         }
-
     },
     getters: {
 

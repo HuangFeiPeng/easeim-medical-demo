@@ -3,7 +3,6 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import WebIM from './utils/WebIM'
-// console.log(new WebIM);
 // 引入Vconsole
 import Vconsole from 'vconsole'
 // new Vconsole();

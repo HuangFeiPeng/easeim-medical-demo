@@ -2,6 +2,20 @@
   <div class="chat_content">
     <div class="msglist_box" @click="initAllInputStatus" ref="scroll">
       <div class="msglist_content scroll-content">
+        <div class="pulldown-wrapper">
+          <div v-show="beforePullDown">
+            <span>下拉加载更多消息</span>
+          </div>
+          <div v-show="!beforePullDown">
+            <div v-show="isPullingDown">
+              <span>Loading...</span>
+            </div>
+            <div v-show="!isPullingDown">
+              <span>加载成功</span>
+            </div>
+          </div>
+        </div>
+        <!-- 每一条消息 -->
         <div
           class="msglist_content_item scroll-item"
           v-for="(item, index) in msgList[hxId]"
@@ -81,6 +95,7 @@
         </div>
       </div>
     </div>
+    <!-- 输入框组件 -->
     <InputBox ref="input_box" :hx_id="hxId" />
   </div>
 </template>
@@ -89,15 +104,22 @@ import "./chat_content.scss";
 import { mapState, mapActions } from "vuex";
 import InputBox from "../input_box/input_box";
 import BScroll from "@better-scroll/core";
+import PullDown from "@better-scroll/pull-down";
 import { renderTime, renderSize } from "@/utils/renderTime";
 import { fileType } from "@/utils/fileType";
 import { findIndex } from "@better-scroll/shared-utils";
 import BenzAMRRecorder from "benz-amr-recorder";
+
+BScroll.use(PullDown);
+const TIME_BOUNCE = 800;
+const REQUEST_TIME = 1000;
+const THRESHOLD = 70;
+const STOP = 56;
+
 export default {
   data() {
     return {
       hxId: this.$route.query.HxId || "",
-      isLoading: false,
       BS: null,
       avatarUrl: {
         doctor: require("@/assets/imgs/占位01.jpeg"),
@@ -106,7 +128,9 @@ export default {
       armSeting: {
         isPlaying: false,
         isPlayIdx: -1
-      }
+      },
+      beforePullDown: true,
+      isPullingDown: false
     };
   },
   created() {
@@ -123,36 +147,72 @@ export default {
   },
   computed: {
     ...mapState({
-      // nowPanientDetil: state => state.Conversation.nowPanientDetil,
-      // nowContactMsg: state => state.Message.nowContactMsg
       msgList: state => state.Message.msgList
     })
   },
   watch: {
-    "$store.state.Message.msgList"() {
-      console.log(">>>>>>>数据改变", this.BS);
-      // this.BS.refresh(); //重新计算 BetterScroll，当 DOM 结构发生变化的时候务必要调用确保滚动的效果正常。
-      // this.scrollTo();
-      this.initScroll();
+    "$store.state.Message.msgList"(oldVal, newVal) {
+      console.log(">>>>>>>数据改变", oldVal, newVal);
+      setTimeout(() => {
+        this.BS.refresh();
+        this.scrollTo();
+      }, 500);
     }
   },
   methods: {
-    ...mapActions(["onSetAudioMsgPlayStatus"]),
+    ...mapActions(["onSetAudioMsgPlayStatus", "onGetHistoryMessage"]),
     //滚动插件
     initScroll() {
       this.$nextTick(() => {
         this.BS = new BScroll(this.$refs["scroll"], {
-          click: true
+          click: true,
+          scrollY: true,
+          bounceTime: TIME_BOUNCE,
+          useTransition: false,
+          pullDownRefresh: {
+            threshold: THRESHOLD,
+            stop: STOP
+          }
         });
-        // this.BS.refresh(); //重新计算 BetterScroll，当 DOM 结构发生变化的时候务必要调用确保滚动的效果正常。
         this.scrollTo();
+        this.BS.on("pullingDown", this.pullingDownHandler);
       });
+    },
+    async pullingDownHandler() {
+      console.log("trigger pullDown");
+      this.beforePullDown = false;
+      this.isPullingDown = true;
+      await this.requestData();
+      this.isPullingDown = false;
+      this.finishPullDown();
+    },
+    async finishPullDown() {
+      this.BS.finishPullDown();
+      setTimeout(() => {
+        this.beforePullDown = true;
+        this.BS.refresh();
+      }, TIME_BOUNCE + 100);
+    },
+    async requestData() {
+      const hxId = this.hxId;
+      try {
+        let data = await this.onGetHistoryMessage(hxId);
+        if (data && data.length === 0) {
+          this.$Toast("暂无更过消息");
+        }
+      } catch (err) {
+        console.log(">>>>>数据加载失败", err);
+      }
     },
     //图片加载完毕置底
     loadImgOk() {
       console.log(">>>>>图片加载完毕");
       //图片加载完毕再调用一次滚动，解决图片加载完成之后滚动不完全置底问题。
-      this.initScroll();
+      // this.initScroll();
+      this.$nextTick(() => {
+        this.BS.refresh();
+        this.scrollTo();
+      });
     },
     //播放音频
     playAudio(msg) {
@@ -189,6 +249,7 @@ export default {
     //滚动的方法
     scrollTo() {
       this.$nextTick(() => {
+        console.log(">>>>>滚动置底被调用");
         this.BS.scrollTo(0, this.BS.maxScrollY, 500);
       });
     },
@@ -211,7 +272,6 @@ export default {
         return this.renderTime(timestamp);
       }
     },
-
     //初始化input框的各功能状态
     initAllInputStatus() {
       this.$refs["input_box"].initInputStatus();

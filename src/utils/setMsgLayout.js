@@ -2,6 +2,7 @@
 import WebIM from './WebIM'
 let conn = WebIM.conn;
 export let setMsgLayout = (message) => {
+
     const nowPanient = window.Vue.$route; //拿到当前选中的患者信息。 
     let isSelft = message.from && (message.from === conn.user ? true : false) //处理消息当前的来源
     let isUnReadNum = !(nowPanient.path === "/disposeClinical/chat_content" && (nowPanient.query.HxId === message.from || message.from === conn.user))
@@ -12,11 +13,15 @@ export let setMsgLayout = (message) => {
     });
     let getTime = String(new Date().getTime());
     let fileType = message.filename && message.filename.slice([message.filename.lastIndexOf('.') + 1]) //截取他人发过来的文件类型
+
+    //转换type类型 如果message体中含有contentsType，则说明是他人发的消息将type转换。
+    message.contentsType && (message.type = changeType(message))
     const {
         type
     } = message;
     let msg = {};
     if (type === 'txt') {
+
         msg = {
             from: message.from,
             to: message.to,

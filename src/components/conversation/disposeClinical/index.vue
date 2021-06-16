@@ -174,6 +174,7 @@ export default {
         path: "/disposeClinical/chat_content",
         query: { HxId }
       });
+      // this.$router.push("/test_scroll");
     },
     //处理清除未读数
     removeUnReadNum(HxId) {
