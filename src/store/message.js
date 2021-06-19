@@ -7,7 +7,6 @@ let conn = WebIM.conn;
 const message = {
     state: {
         msgList: {},
-        pfh: [],
         unReadNum: {},
         nowContactMsg: []
     },
@@ -17,22 +16,43 @@ const message = {
             state, param) => {
             const {
                 to,
-                from
+                from,
             } = param;
             const key = (conn.user === to ? from : to);
             if (!state.msgList[key]) {
                 state.msgList[key] = []
             }
+
             state.msgList[key].push(param)
+
             const oldMsg = {
                 ...state.msgList
             }
             state.msgList = oldMsg;
         },
+        //处理漫游消息进行合并
+        mergeHistoryMessage: (state, param) => {
+            console.log('>>>>>>>传入的历史消息', param);
+            const {
+                hxId,
+                historyMsgArr
+            } = param;
+            if (!state.msgList[hxId]) {
+                state.msgList[hxId] = []
+                state.msgList[hxId].push(...historyMsgArr)
 
+            } else {
+                let newMsgArr = [];
+                newMsgArr.push(...historyMsgArr, ...state.msgList[hxId]);
+                console.log('11111++++++', newMsgArr);
+                state.msgList[hxId] = newMsgArr;
+
+                // historyMsgArr.concat(state.msgList[hxId])
+            }
+            // historyMsgArr.concat(state.msgList[hxId])
+        },
         //处理统计各用户的未读数
         updataUnReadMsgCount: (state, payload) => {
-            console.log('<<<<', payload);
             const {
                 id,
                 isDelete
@@ -73,20 +93,24 @@ const message = {
         onGetHistoryMessage({
             commit
         }, hxId) {
-            console.log('>>>>>>>>拉取漫游的action被调用', hxId);
             return new Promise((resolve, reject) => {
                 let options = {
                     queue: String(hxId), //需特别注意queue属性值为大小写字母混合，以及纯大写字母，会导致拉取漫游为空数组，因此注意将属性值装换为纯小写
                     isGroup: false,
                     count: 15,
                     success: function (res) {
+                        console.log('>>>>>>历史消息拉取成功', res);
+                        let historyMsgArr = [];
                         const historyMessage = res;
                         historyMessage && historyMessage.forEach((item, index) => {
-                            console.log('>>>>>>>循环出来的数据', item, index);
                             let msgData = setMsgLayout(item);
-                            // console.log('>>>>>msgData', msgData);
-                            commit('updataMessageList', msgData)
+                            msgData.isHistoryMsg = true
+                            historyMsgArr.push(msgData)
                         });
+                        commit('mergeHistoryMessage', {
+                            hxId,
+                            historyMsgArr
+                        })
                         resolve(res)
                     },
                     fail: function () {
@@ -324,7 +348,6 @@ const message = {
         onSetAudioMsgPlayStatus: ({
             commit
         }, msgData) => {
-            // console.log('>>>>>>>', payload);
             commit('updataAudioMsgPlayStatus', msgData)
         }
     },

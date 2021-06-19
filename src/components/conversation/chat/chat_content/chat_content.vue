@@ -220,7 +220,8 @@ export default {
       let src = msg.file.url;
       let isPlay = msg.isPlay;
       let armRec = new BenzAMRRecorder();
-      isPlay && !isPlay && this.setAudioMsgPlayStatus(msg);
+      !isPlay && this.setAudioMsgPlayStatus(msg);
+      // this.setAudioMsgPlayStatus(msg);
       armRec.initWithUrl(src).then(function() {
         if (!_that.armSeting.isPlaying) {
           armRec.play();
@@ -244,6 +245,7 @@ export default {
     },
     //处理音频消息红点
     setAudioMsgPlayStatus(msg) {
+      console.log(">>>>>>处理音频消息红点执行");
       this.onSetAudioMsgPlayStatus(msg);
     },
     //滚动的方法
