@@ -1,9 +1,11 @@
 import websdk from 'easemob-websdk';
 import config from './WebIMConfig';
-console.log(config);
+import AgoraRTC from "agora-rtc-sdk-ng"
+
 let conn = {}
 let WebIM = {}
 WebIM = websdk
+WebIM.AgoraRTC = AgoraRTC
 WebIM.config = config
 conn = WebIM.conn = new WebIM.connection({
     appKey: WebIM.config.appkey,

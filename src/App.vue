@@ -5,11 +5,10 @@
 </template>
 <script>
 import { setMsgLayout, changeType } from "./utils/setMsgLayout";
-
 export default {
   created() {
     let vm = this; //该this为Vue实例
-    console.log(this);
+    // console.log(this);
     this.$conn.listen({
       onOpened: function() {
         vm.$Toast.success("登陆成功");
@@ -42,8 +41,53 @@ export default {
         let msgData = setMsgLayout(message);
         vm.$store.commit("updataMessageList", msgData);
       }, //收到图片消息
-      onCmdMessage: function(message) {
+      onCmdMessage: async message => {
         console.log("cmd", message);
+        const { action, ext } = message;
+        console.log(">>>>>>action", action);
+        switch (action) {
+          case "busy":
+            {
+              vm.$Notify("对方正忙！");
+              vm.$Bus.$emit("busy");
+            }
+            break;
+          case "calleReady":
+            {
+              console.log(">>>>>>>被叫已准备好", message);
+              await vm.$store.dispatch("ackChannelName", message);
+            }
+            break;
+          case "ackChannelName":
+            {
+              await vm.$store.dispatch("backChannelName", message);
+            }
+            break;
+          case "backChannelName":
+            {
+              await vm.$store.dispatch("alertPage", message);
+            }
+            break;
+          case "alertPage":
+            {
+              console.log(">>>>>>>alertPage根据结果看是否进入带接听页");
+              if (ext && ext.result) {
+                // await vm.$store.commit("updataClient", 3);
+                await vm.$router.push({ name: "AudioCall" });
+              } else {
+                console.log(">>>>>视频呼叫");
+              }
+            }
+            break;
+          case "giveUpCall":
+            {
+              vm.$store.commit("initRtcStatus");
+              vm.$router.go(-1);
+            }
+            break;
+          default:
+            break;
+        }
       }, //收到命令消息
       onAudioMessage: function(message) {
         console.log(">>>>>收到音频消息", message.url);
@@ -75,6 +119,21 @@ export default {
         let msgData = setMsgLayout(message);
         vm.$store.commit("updataMessageList", msgData);
       }, //收到音频消息
+      onCustomMessage: async message => {
+        const { ext } = message;
+        const avStatus = vm.$store.state.Agroa.avStatus;
+        console.log(">>>>>>>>avStatus", avStatus);
+        if (avStatus > 0 && avStatus === 1) {
+          await vm.$store.dispatch("calleBusy", message);
+        } else {
+          const nowTime = new Date().getTime();
+          //与当前登录时间大于1分钟就忽略，小于一分钟可以进行加入
+          if (nowTime - ext.ts < 60000) {
+            await vm.$store.dispatch("calleReady", message);
+          }
+        }
+        console.log(">>>>>>>收到自定义消息", message);
+      }, //收到自定义消息
       onFileMessage: function(message) {
         console.log("file", message);
         message.type = changeType(message);

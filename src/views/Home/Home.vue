@@ -39,6 +39,8 @@
 <script>
 import "./Home.scss";
 import { mapState } from "vuex";
+import { Notify } from "vant";
+
 export default {
   name: "Home",
   data() {

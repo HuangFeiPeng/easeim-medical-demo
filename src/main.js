@@ -3,6 +3,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import WebIM from './utils/WebIM'
+const bus = new Vue();
+console.log('>>>>>>bus', bus);
 // 引入Vconsole
 import Vconsole from 'vconsole'
 // new Vconsole();
@@ -32,7 +34,9 @@ import {
   PullRefresh,
   Popup,
   Badge,
-  Loading
+  Loading,
+  Notify,
+  ActionSheet
 } from 'vant';
 import {
   Image as VanImage
@@ -54,10 +58,13 @@ Vue.use(NoticeBar)
 Vue.use(Sticky)
 Vue.use(Col)
 Vue.use(Row)
-Vue.use(PullRefresh).use(Popup).use(Badge).use(Loading)
+Vue.use(PullRefresh).use(Popup).use(Badge).use(Loading).use(Notify).use(ActionSheet)
 Vue.prototype.$Toast = Toast
+Vue.prototype.$Notify = Notify
 Vue.prototype.$WebIM = WebIM
 Vue.prototype.$conn = WebIM.conn
+Vue.prototype.$RTC = WebIM.AgoraRTC
+Vue.prototype.$Bus = bus
 Vue.config.productionTip = false
 
 window.Vue = new Vue({

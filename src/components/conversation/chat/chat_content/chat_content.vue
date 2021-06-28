@@ -119,7 +119,7 @@ const STOP = 56;
 export default {
   data() {
     return {
-      hxId: this.$route.query.HxId || "",
+      hxId: this.$store.state.Conversation.nowPanientDetil.HxId || "",
       BS: null,
       avatarUrl: {
         doctor: require("@/assets/imgs/占位01.jpeg"),

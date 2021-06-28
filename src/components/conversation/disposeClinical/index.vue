@@ -141,7 +141,7 @@ export default {
     };
   },
   beforeDestroy() {
-    this.$store.commit("initNowPanientDetil");
+    // this.$store.commit("initNowPanientDetil");
   },
   computed: {
     ...mapState({
@@ -171,9 +171,12 @@ export default {
       let HxId = this.patientInfo.HxId;
       this.removeUnReadNum(HxId);
       this.$router.push({
-        path: "/disposeClinical/chat_content",
-        query: { HxId }
+        name: "ChatContent"
       });
+      // this.$router.push({
+      //   name: "ChatContent",
+      //   query: { HxId }
+      // });
     },
     //处理清除未读数
     removeUnReadNum(HxId) {

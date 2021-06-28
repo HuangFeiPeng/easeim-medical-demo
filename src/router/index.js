@@ -90,6 +90,17 @@ const routes = [{
       title: '退诊原因'
     },
     component: () => import('../components/conversation/disposeClinical/refuseReception.vue')
+  },
+  //音频通话
+  {
+    path: '/audioCall',
+    name: 'AudioCall',
+    component: () => import('../components/agoraVideo/audioCall/audioCall.vue')
+  },
+  {
+    path: '/videoCall',
+    name: 'videoCall',
+    component: () => import('../components/agoraVideo/videoCall/videoCall.vue')
   }
 ]
 

@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import Setting from './setting';
 import Conversation from './conver';
 import Message from './message';
+import Agroa from './agroa';
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -31,6 +32,7 @@ export default new Vuex.Store({
   modules: {
     Setting,
     Conversation,
-    Message
+    Message,
+    Agroa
   }
 })

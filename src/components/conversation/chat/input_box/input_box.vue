@@ -55,6 +55,7 @@
         <Audio />
         <Img @sendImg="sendImageMessage" />
         <File @sendFile="sendFileMessage" />
+        <AVCall />
       </MoreFunc>
       <CollectAudio
         @sendAudioData="sendAudioMessage"
@@ -72,6 +73,7 @@ import Audio from "./suit/about_audio/audio";
 import CollectAudio from "./suit/about_audio/collect_audio";
 import Img from "./suit/image";
 import File from "./suit/file";
+import AVCall from "./suit/AVCall";
 
 export default {
   props: {
@@ -171,6 +173,7 @@ export default {
     Audio,
     Img,
     File,
+    AVCall,
     CollectAudio
   }
 };
