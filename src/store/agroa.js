@@ -8,7 +8,7 @@ const CALLSTATUS = {
     receivedConfirmRing: 4, // 被呼叫中
     answerCall: 5, //应答中
     receivedAnswerCall: 6, //无应答
-    confirmCallee: 7
+    confirmCallee: 7 //通话进行中
 }
 const agroa = {
     state: {
@@ -41,6 +41,7 @@ const agroa = {
             state.channelName = data;
         },
         initRtcStatus: (state) => {
+            // state.rtc = {}
             state.avStatus = CALLSTATUS.idle;
             state.channelName = ''
         }
@@ -259,6 +260,32 @@ const agroa = {
             }
 
         },
+        //被叫接听 被叫开启定时器 主叫也开启定时器计时
+        answerCalle: (context, payload) => {
+            console.log('>>>>>>被叫确认接听', payload);
+            const {
+                toId
+            } = payload;
+            let id = WebIM.conn.getUniqueId(); //生成本地消息id
+            let msg = new WebIM.message('cmd', id); //创建命令消息
+
+            msg.set({
+                to: toId, //接收消息对象
+                action: 'answerCalle', //用户自定义，cmd消息必填
+                ext: {
+                    'tips': '被叫已经接听，发送会给主叫的回执'
+                }, //用户自扩展的消息内容（群聊用法相同）
+                success: function (id, serverMsgId) {
+                    context.commit('updataAvStatus', CALLSTATUS.confirmCallee)
+                    console.log('>>>>>>确认接听命令消息发送成功', serverMsgId);
+                }, //消息发送成功回调 
+                fail: function (e) {
+                    console.log("Fail"); //如禁言、拉黑后发送消息会失败
+                }
+            });
+
+            WebIM.conn.send(msg.body);
+        },
         //挂断操作,不同的阶段执行不同的挂断状态
         onHuangUp: (context, payload) => {
             console.log('>>>>>>>执行挂断', payload);
@@ -268,14 +295,16 @@ const agroa = {
             } = payload;
             /* 
                 0 对方还未弹窗 那就直接初始化 挂断。
-                1 对方已经弹窗 主叫方放弃呼叫 挂断
+                1 对方已经弹窗 主叫方放弃呼叫 挂断。
                 2 被叫方拒绝主叫方的呼叫而执行挂断。
+                3 通话过程中进行挂断。
             */
             let sendInitMsg = (type, toId) => {
                 console.log('<>>>>>>>>>>>>>type, toId', type, toId);
                 const sendType = {
                     0: 'giveUpCall',
-                    1: 'refuseCall'
+                    1: 'refuseCall',
+                    2: 'normalHangUp'
                 }
                 let id = WebIM.conn.getUniqueId(); //生成本地消息id
                 let msg = new WebIM.message('cmd', id); //创建命令消息
@@ -289,7 +318,7 @@ const agroa = {
                         console.log('>>>>>>>初始化消息发送成功', serverMsgId);
                     }, //消息发送成功回调 
                     fail: function (e) {
-                        console.log("Fail"); //如禁言、拉黑后发送消息会失败
+                        console.log("Fail", e); //如禁言、拉黑后发送消息会失败
                     }
                 });
 
@@ -308,6 +337,12 @@ const agroa = {
             if (type === 2) {
                 console.log('>>>>>>>>>被叫方拒绝主叫方的呼叫通知主叫初始化');
                 sendInitMsg(1, HxId)
+                context.commit('initRtcStatus')
+            }
+            if (type === 3) {
+                console.log('>>>>>>>>>正常挂断通知对方初始化');
+                sendInitMsg(2, HxId)
+                context.commit('initRtcStatus')
             }
 
         },

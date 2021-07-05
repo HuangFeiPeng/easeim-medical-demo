@@ -4,7 +4,6 @@ import router from './router'
 import store from './store'
 import WebIM from './utils/WebIM'
 const bus = new Vue();
-console.log('>>>>>>bus', bus);
 // 引入Vconsole
 import Vconsole from 'vconsole'
 // new Vconsole();

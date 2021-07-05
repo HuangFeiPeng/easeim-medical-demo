@@ -46,43 +46,69 @@ export default {
         const { action, ext } = message;
         console.log(">>>>>>action", action);
         switch (action) {
-          case "busy":
+          case "busy": //忙碌
             {
               vm.$Notify("对方正忙！");
               vm.$Bus.$emit("busy");
             }
             break;
-          case "calleReady":
+          case "calleReady": //已准备
             {
               console.log(">>>>>>>被叫已准备好", message);
               await vm.$store.dispatch("ackChannelName", message);
             }
             break;
-          case "ackChannelName":
+          case "ackChannelName": //房间名告知
             {
               await vm.$store.dispatch("backChannelName", message);
             }
             break;
-          case "backChannelName":
+          case "backChannelName": //返回房间名
             {
               await vm.$store.dispatch("alertPage", message);
             }
             break;
-          case "alertPage":
+          case "alertPage": //弹出待接听页面
             {
               console.log(">>>>>>>alertPage根据结果看是否进入带接听页");
               if (ext && ext.result) {
-                // await vm.$store.commit("updataClient", 3);
-                await vm.$router.push({ name: "AudioCall" });
+                const { from, ext } = message;
+                vm.$store.commit("updataChannelName", ext.channelName);
+                await vm.$router.push({
+                  name: "AudioCall",
+                  params: { HxId: from }
+                });
               } else {
                 console.log(">>>>>视频呼叫");
               }
             }
             break;
-          case "giveUpCall":
+          case "giveUpCall": //放弃呼叫
             {
               vm.$store.commit("initRtcStatus");
-              vm.$router.go(-1);
+              vm.$router.back(-1);
+            }
+            break;
+          case "refuseCall": //拒绝接听
+            {
+              vm.$store.commit("initRtcStatus");
+              vm.$router.back(-1);
+            }
+            break;
+          case "normalHangUp": //正常挂断
+            {
+              let type = "calledHangUp"; //正常通话中的挂断执行挂断,另一方收到回执。
+              vm.$Bus.$emit("normalHangUp", type);
+
+              // vm.$store.commit("initRtcStatus");
+              // vm.$router.back(-1);
+              // console.log(">>>>>>>>>接收到挂断通知");
+            }
+            break;
+          case "answerCalle": //确认接听
+            {
+              vm.$store.commit("updataAvStatus", 7);
+              vm.$Bus.$emit("startTimer");
             }
             break;
           default:

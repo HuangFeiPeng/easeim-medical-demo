@@ -1,6 +1,6 @@
 module.exports = {
     devServer: {
         // 此处开启 https
-        https: false
+        https: true
     }
 }
