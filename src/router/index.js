@@ -99,7 +99,7 @@ const routes = [{
   },
   {
     path: '/videoCall',
-    name: 'videoCall',
+    name: 'VideoCall',
     component: () => import('../components/agoraVideo/videoCall/videoCall.vue')
   }
 ]

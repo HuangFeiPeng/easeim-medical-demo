@@ -23,13 +23,15 @@ const agroa = {
         channelName: '' //房间名
     },
     mutations: {
-        updataClient: (state, parmas) => {
-            console.log(">>>>>parmas", parmas);
-            if (parmas.client) {
-                state.rtc.client = parmas.client
+        updataClient: (state, params) => {
+            if (params.client) {
+                state.rtc.client = params.client
             }
-            if (parmas.localAudioTrack) {
-                state.rtc.localAudioTrack = parmas.localAudioTrack
+            if (params.localAudioTrack) {
+                state.rtc.localAudioTrack = params.localAudioTrack
+            }
+            if (params.localVideoTrack) {
+                state.rtc.localVideoTrack = params.localVideoTrack
             }
         },
         updataAvStatus: (state, type) => {
@@ -58,7 +60,8 @@ const agroa = {
             })
         },
         //更新本地音频轨道对象
-        setLocalAudioTrack: (context, payload) => {
+        setLocalTrack: (context, payload) => {
+            console.log('>>>>>>>>>更新本地轨道', payload);
             context.commit('updataClient', payload)
         },
         //主叫操作发送邀请
@@ -132,7 +135,7 @@ const agroa = {
         //主叫在收到就绪回执时发送房间名
         ackChannelName: (context, payload) => {
             const channelName = context.state.channelName
-            console.log('>>>>>>>>ackChannelName的房间名', channelName);
+            console.log('>>>>>>>>ackChannelName的房间名', payload);
             const {
                 from,
                 ext
@@ -147,7 +150,7 @@ const agroa = {
                     action: 'ackChannelName', //用户自定义，cmd消息必填
                     ext: {
                         'channelName': channelName,
-                        "avType": 0,
+                        "avType": ext.avType,
                         'tips': '主叫在收到被叫准备就绪回执时发送房间名'
                     }, //用户自扩展的消息内容（群聊用法相同）
                     success: function (id, serverMsgId) {
@@ -179,6 +182,7 @@ const agroa = {
                 to: String(toId), //接收消息对象
                 action: 'backChannelName', //用户自定义，cmd消息必填
                 ext: {
+                    'avType': ext.avType,
                     'channelName': ext.channelName,
                     'tips': '被叫返回房间名，确认该房间名是否有效'
                 }, //用户自扩展的消息内容（群聊用法相同）
@@ -211,7 +215,9 @@ const agroa = {
                 ext: {
                     'channelName': ext.channelName,
                     'tips': '主叫发送校验房间名是否有效的结果',
-                    'result': result
+                    'result': result,
+                    'avType': ext.avType,
+
                 }, //用户自扩展的消息内容（群聊用法相同）
                 success: function (id, serverMsgId) {
                     if (result) { //如果会议有效 那么将当前状态改为 弹窗中(对方进入弹窗)

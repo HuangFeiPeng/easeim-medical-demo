@@ -27,7 +27,6 @@
           </p>
         </div>
       </div>
-      <!-- <p class="call_duration">00:00</p> -->
     </div>
     <!-- 操作按钮 -->
     <div class="handle_btn">
@@ -118,7 +117,14 @@ export default {
     filterRecordVoicTime(len) {
       let min = Math.floor(len / 60),
         sec = len % 60;
-      return min + ":" + (sec < 10 ? "0" + sec : sec);
+      let hou = Math.floor(min / 60);
+      return (
+        hou +
+        ":" +
+        (min < 10 ? "0" + min : min || min < 60 ? "0" + (min % 60) : min) +
+        ":" +
+        (sec < 10 ? "0" + sec : sec)
+      );
     }
   },
   watch: {
@@ -130,7 +136,7 @@ export default {
     ...mapActions([
       "getRtctoken",
       "sendInviteMessage",
-      "setLocalAudioTrack",
+      "setLocalTrack",
       "onHuangUp",
       "answerCalle"
     ]),
@@ -198,7 +204,7 @@ export default {
           //发布邀请对方加入房间信息
           //发布本地音频轨道
           let localAudioTrack = await this.$RTC.createMicrophoneAudioTrack();
-          await this.setLocalAudioTrack({ localAudioTrack });
+          await this.setLocalTrack({ localAudioTrack });
           await this.rtc.client.publish([this.rtc.localAudioTrack]);
           await this.sendInviteMessage({ HxId, avType });
         } catch (error) {

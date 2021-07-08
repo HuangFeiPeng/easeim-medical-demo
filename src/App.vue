@@ -74,12 +74,17 @@ export default {
               if (ext && ext.result) {
                 const { from, ext } = message;
                 vm.$store.commit("updataChannelName", ext.channelName);
-                await vm.$router.push({
-                  name: "AudioCall",
-                  params: { HxId: from }
-                });
-              } else {
-                console.log(">>>>>视频呼叫");
+                if (ext.avType === "audio") {
+                  await vm.$router.push({
+                    name: "AudioCall",
+                    params: { HxId: from }
+                  });
+                } else {
+                  await vm.$router.push({
+                    name: "VideoCall",
+                    params: { HxId: from }
+                  });
+                }
               }
             }
             break;
@@ -155,6 +160,7 @@ export default {
           const nowTime = new Date().getTime();
           //与当前登录时间大于1分钟就忽略，小于一分钟可以进行加入
           if (nowTime - ext.ts < 60000) {
+            message.ext = message.customExts; //取出消息体内的拨打类型传入进去
             await vm.$store.dispatch("calleReady", message);
           }
         }

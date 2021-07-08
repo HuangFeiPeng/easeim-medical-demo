@@ -48,7 +48,10 @@ export default {
         return;
       }
       if (type === "VIDEO") {
-        this.$router.push({ path: "/videoCall" });
+        this.$router.push({
+          name: "VideoCall",
+          params: { HxId, name, caller: true }
+        });
         return;
       }
     }
