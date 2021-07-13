@@ -30,7 +30,6 @@ export default {
         }, 700);
       }, //连接关闭回调
       onTextMessage: function(message) {
-        console.log("text", message);
         message.type = changeType(message);
         let msgData = setMsgLayout(message);
         vm.$store.commit("updataMessageList", msgData);
@@ -97,6 +96,7 @@ export default {
           case "refuseCall": //拒绝接听
             {
               vm.$store.commit("initRtcStatus");
+              vm.$store.commit("initLocalChannel");
               vm.$router.back(-1);
             }
             break;

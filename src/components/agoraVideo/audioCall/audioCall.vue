@@ -265,8 +265,9 @@ export default {
           await this.onHuangUp({ type: 3, HxId });
         }
         // 销毁本地音视频轨道。
-        this.rtc.localAudioTrack && this.rtc.localAudioTrack.close();
-        await this.rtc.client.leave();
+        // this.rtc.localAudioTrack && this.rtc.localAudioTrack.close();
+        // await this.rtc.client.leave();
+        await this.$store.commit("initLocalChannel");
         await this.$router.go(-1);
         return;
       }

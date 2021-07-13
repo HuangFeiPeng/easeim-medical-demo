@@ -46,6 +46,21 @@ const agroa = {
             // state.rtc = {}
             state.avStatus = CALLSTATUS.idle;
             state.channelName = ''
+        },
+        initLocalChannel: (state) => {
+            if (state.rtc.localAudioTrack || state.rtc.localVideoTrack) {
+                state.rtc.localAudioTrack.close();
+                state.rtc.localVideoTrack.close();
+                state.rtc.client.leave();
+                state.rtc = {
+                    // 用来放置本地客户端。
+                    client: null,
+                    // 用来放置本地音视频频轨道对象。
+                    localAudioTrack: null,
+                    localVideoTrack: null
+                }
+            }
+
         }
     },
     actions: {

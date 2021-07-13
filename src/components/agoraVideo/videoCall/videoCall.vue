@@ -67,6 +67,7 @@
 <script>
 import "./videoCall.scss";
 import { mapActions, mapState } from "vuex";
+import errCode from "@/utils/errorSatus";
 export default {
   data() {
     return {
@@ -201,7 +202,9 @@ export default {
           //发布邀请对方加入房间信息
           await this.sendInviteMessage({ HxId, avType });
         } catch (error) {
-          console.log(">>>>>>>房间加入异常", error);
+          console.log(">>>>>>>房间加入异常", error, errCode);
+          errCode({ type: error.code });
+          this.$router.go(-1);
         }
       }
       if (ident === 1) {
@@ -231,7 +234,8 @@ export default {
           await this.rtc.client.publish([localAudioTrack, localVideoTrack]);
           this.rtc.localVideoTrack.play("my_video");
         } catch (error) {
-          console.log(">>>>>>>>房间加入异常", error);
+          errCode({ type: error.code });
+          this.$router.go(-1);
         }
       }
     },
@@ -245,8 +249,9 @@ export default {
       const { HxId } = this.$route.params;
       if (type === "calledHangUp") {
         // 销毁本地音视频轨道。
-        this.rtc.localAudioTrack && this.rtc.localAudioTrack.close();
-        await this.rtc.client.leave();
+        // this.rtc.localAudioTrack && this.rtc.localAudioTrack.close();
+        // await this.rtc.client.leave();
+        await this.$store.commit("initLocalChannel");
         await this.$store.commit("initRtcStatus");
         await this.$router.back(-1);
         return;
@@ -264,9 +269,10 @@ export default {
           await this.onHuangUp({ type: 3, HxId });
         }
         // 销毁本地音视频轨道。
-        this.rtc.localAudioTrack && this.rtc.localAudioTrack.close();
-        this.rtc.localVideoTrack && this.rtc.localVideoTrack.close();
-        await this.rtc.client.leave();
+        // this.rtc.localAudioTrack && this.rtc.localAudioTrack.close();
+        // this.rtc.localVideoTrack && this.rtc.localVideoTrack.close();
+        // await this.rtc.client.leave();
+        await this.$store.commit("initLocalChannel");
         await this.$router.go(-1);
         return;
       }

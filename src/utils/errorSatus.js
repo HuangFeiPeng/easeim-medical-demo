@@ -31,6 +31,10 @@ function handleError(errCode) {
         Toast.fail('没有在群组或聊天室白名单!')
     }
     break;
+    case 'DEVICE_NOT_FOUND': {
+        Toast.fail('请打开媒体设备!')
+    }
+    break;
     default:
         break;
     }
